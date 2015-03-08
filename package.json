@@ -1,0 +1,29 @@
+{
+  "name": "STRP",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dsdeur/STRP.git"
+  },
+  "author": "Durgé Seerden",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dsdeur/STRP/issues"
+  },
+  "homepage": "https://github.com/dsdeur/STRP",
+  "devDependencies": {
+    "browser-sync": "^2.2.2",
+    "browserify": "^9.0.3",
+    "gulp": "^3.8.11",
+    "gulp-compass": "^2.0.3",
+    "gulp-imagemin": "^2.2.1",
+    "gulp-plumber": "^0.6.6",
+    "gulp-util": "^3.0.4",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}
