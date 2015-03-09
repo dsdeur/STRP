@@ -2,16 +2,16 @@ var THREE = require('three');
 var Scene = require('./scene.js');
 var Nebula = require('./nebula.js');
 
-var config = {
+var data = {
 	color: [ 0, 128, 255 ],
-    klassiekModern: true,
-    volgendLeidend:  false,
+    klassiekModern: false,
+    volgendLeidend:  true,
     natuurFuturistisch: true,
     creatiefLogisch: false,
     introvertExtravert: false,
     rustigDruk: false,
     chaotischGestructureerd: true,
-    hartslag: 66
+    hartslag: 60
 };
 
 // var data = {

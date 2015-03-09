@@ -22,21 +22,21 @@ module.exports.getConfig = function(data) {
 		}
 
 		if (data.volgendLeidend == true) {
-			config.movement = false;
+			config.movement = 1.3;
 		}else{
-			config.volgendLeidend = true;
+			config.movement = 1;
 		}
 
 		config.color = data.color;
 
 		//Testen > anders durge zijn schuld anders > baas
-		var data.hartslag = Math.min(Math.max(data.hartslag, 50), 140) - 50;
+		data.hartslag = Math.min(Math.max(data.hartslag, 50), 140) - 50;
 		config.speed2 = (0.2 * data.hartslag ) / 90;
-
+		
 		if (data.introvertExtravert = true){
 			config.level = 0.7;
 		}else {
-			config.0.2;
+			config = 0.2;
 		}
 
 		if (data.rustigDruk = true){
@@ -50,4 +50,8 @@ module.exports.getConfig = function(data) {
 		}else {
 			config.rotation = -1;
 		}
+		console.log(config);
+
+		//Give it back now y'all
+		return config;
 }

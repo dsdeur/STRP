@@ -28,9 +28,9 @@ module.exports = function(config) {
         }
 
         // Randomize the position
-        this.object.position.x = Math.floor(Math.random() * 500) + -250;
-        this.object.position.y = Math.floor(Math.random() * 500) + -250;
-        this.object.position.z = Math.floor(Math.random() * 700) + -350;
+        this.object.position.x = 0; //Math.floor(Math.random() * 500) + -250;
+        this.object.position.y = 100; //Math.floor(Math.random() * 500) + -250;
+        this.object.position.z = 0; //Math.floor(Math.random() * 700) + -350;
 
 
         // Apply this color
