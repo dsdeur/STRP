@@ -11,8 +11,8 @@ var browserify = require('browserify');
 // Set the paths
 var paths = {
     styles: {
-        src: './src/scss/*.scss',
-        watch: './src/scss/**/*.scss',
+        src: './src/css/*.css',
+        watch: './src/css/**/*.css',
         dest: './build/css'
     },
     scripts: {
@@ -79,15 +79,21 @@ gulp.task('serve', function() {
     });
 });
 
+gulp.task('css', function(){
+    return gulp.src(paths.styles.src)
+        .pipe(gulp.dest(paths.styles.dest));
+})
+
 // Watches files for changes
 gulp.task('watcher', function() {
     // Watch files
     gulp.watch(paths.scripts.src, ['build-js']);
     gulp.watch(paths.images.src, ['images']);
     gulp.watch(paths.html.src, ['html']);
+    gulp.watch(paths.styles.src, ['css']);
 });
 
 // Create tasks
-gulp.task('build', ['build-js', 'images', 'html']);
+gulp.task('build', ['css', 'build-js', 'images', 'html']);
 gulp.task('default', ['serve', 'watch']);
 gulp.task('watch', ['build', 'watcher']);
