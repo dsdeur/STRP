@@ -14,6 +14,8 @@ Ga in de map en installeer de node modules:
 $ cd STRP
 $ npm install
 ```
+of
+```$ sudo npm install```
 
 Run gulp:
 ```
