@@ -57,6 +57,7 @@ gulp.task('build-js', function() {
         .on('error', function(err) {
             gutil.log(err);
             stream.end();
+            this.emit('end');
         });
 
     return stream
