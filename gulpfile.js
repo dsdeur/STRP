@@ -1,6 +1,5 @@
 // Includes
 var gulp = require('gulp');
-var compass = require('gulp-compass');
 var imagemin = require('gulp-imagemin');
 var browserSync = require('browser-sync');
 var plumber = require('gulp-plumber');
@@ -29,18 +28,6 @@ var paths = {
         dest: './build/'
     }
 };
-
-// Convert sassy files in css
-gulp.task('compass', function() {
-    return gulp.src(paths.styles.src)
-        .pipe(plumber())
-        .pipe(compass({
-            config_file: './config.rb',
-            css: 'build/css',
-            sass: 'src/scss'
-        }))
-        .pipe(gulp.dest(paths.styles.dest));
-});
 
 // Process images
 gulp.task('images', function() {
@@ -95,13 +82,12 @@ gulp.task('serve', function() {
 // Watches files for changes
 gulp.task('watcher', function() {
     // Watch files
-    gulp.watch(paths.styles.watch, ['compass']);
     gulp.watch(paths.scripts.src, ['build-js']);
     gulp.watch(paths.images.src, ['images']);
     gulp.watch(paths.html.src, ['html']);
 });
 
 // Create tasks
-gulp.task('build', ['compass', 'build-js', 'images', 'html']);
+gulp.task('build', ['build-js', 'images', 'html']);
 gulp.task('default', ['serve', 'watch']);
 gulp.task('watch', ['build', 'watcher']);
