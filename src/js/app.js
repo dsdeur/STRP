@@ -11,7 +11,7 @@ var data = {
     introvertExtravert: true,
     rustigDruk: false,
     chaotischGestructureerd: true,
-    hartslag: 70
+    hartslag: 60
 };
 
 
