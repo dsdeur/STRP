@@ -7,10 +7,10 @@ module.exports = function(config) {
 
     this.init = function() {
         // Create the object
-        this.geometry = new THREE.SphereGeometry(25, 40, 40);
+        this.geometry = new THREE.SphereGeometry(50, 40, 40);
         // this.geometry = new THREE.SphereGeometry(Math.floor(Math.random() * 15) + 6, 40, 40);
         
-        this.material = new THREE.MeshPhongMaterial({ambient: 0xff0000, color: 0xff0000})
+        this.material = new THREE.MeshPhongMaterial({ambient: 0xff0000, color: 0xff0000, wireframe: config.wireframe})
         this.object = new THREE.Mesh(this.geometry, this.material);
 
         // Shadow options

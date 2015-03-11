@@ -1,4 +1,5 @@
 var THREE = require('three');
+var Presets = require('./presets.js');
 
 module.exports.getConfig = function(data) {
 		// console.log(config);
@@ -50,7 +51,85 @@ module.exports.getConfig = function(data) {
 		}else {
 			config.rotation = -1;
 		}
-		console.log(config);
+
+// var data = {
+// 	color: [ 0, 128, 255 ],
+//     klassiekModern: false,
+//     volgendLeidend:  false,
+//     natuurFuturistisch: true,
+//     creatiefLogisch: false,
+//     introvertExtravert: true,
+//     rustigDruk: true,
+//     chaotischGestructureerd: false,
+//     hartslag: 140
+// };
+// var data1 = {
+// 	color: [ 0, 128, 255 ],
+//     klassiekModern: false,
+//     volgendLeidend:  true,
+//     natuurFuturistisch: false,
+//     creatiefLogisch: true,
+//     introvertExtravert: true,
+//     rustigDruk: true,
+//     chaotischGestructureerd: false,
+//     hartslag: 60
+// };
+// var data2 = {
+// 	color: [ 0, 128, 255 ],
+//     klassiekModern: true,
+//     volgendLeidend:  true,
+//     natuurFuturistisch: false,
+//     creatiefLogisch: false,
+//     introvertExtravert: true,
+//     rustigDruk: false,
+//     chaotischGestructureerd: true,
+//     hartslag: 60
+// };
+// var data3 = {
+// 	color: [ 0, 128, 255 ],
+//     klassiekModern: true,
+//     volgendLeidend:  true,
+//     natuurFuturistisch: false,
+//     creatiefLogisch: true,
+//     introvertExtravert: true,
+//     rustigDruk: false,
+//     chaotischGestructureerd: true,
+//     hartslag: 60
+// };
+// var data4 = {
+// 	color: [ 0, 128, 255 ],
+//     klassiekModern: true,
+//     volgendLeidend:  false,
+//     natuurFuturistisch: false,
+//     creatiefLogisch: false,
+//     introvertExtravert: false,
+//     rustigDruk: true,
+//     chaotischGestructureerd: false,
+//     hartslag: 60
+// };
+// var data5 = {
+// 	color: [ 0, 128, 255 ],
+//     klassiekModern: false,
+//     volgendLeidend:  false,
+//     natuurFuturistisch: false,
+//     creatiefLogisch: false,
+//     introvertExtravert: true,
+//     rustigDruk: false,
+//     chaotischGestructureerd: true,
+//     hartslag: 60
+// };
+
+		var vars = Presets.matchPresets(data);
+		
+// 		var vars2 = Presets.matchPresets(data1);
+// 		var vars3 = Presets.matchPresets(data2);
+// 		var vars4 = Presets.matchPresets(data3);
+// 		var vars5 = Presets.matchPresets(data4);
+// 		var vars6 = Presets.matchPresets(data5);
+// 		console.log(vars);
+		
+		config.var1 = vars.var1;
+		config.var2 = vars.var2;
 
 		//Give it back now y'all
 		return config;

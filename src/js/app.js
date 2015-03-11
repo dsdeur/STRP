@@ -3,25 +3,16 @@ var Scene = require('./scene.js');
 var Nebula = require('./nebula.js');
 
 var data = {
-	color: [ 0, 128, 255 ],
+	color: [ 57, 245, 192 ],
     klassiekModern: false,
-    volgendLeidend:  true,
+    volgendLeidend:  false,
     natuurFuturistisch: true,
     creatiefLogisch: false,
-    introvertExtravert: false,
+    introvertExtravert: true,
     rustigDruk: false,
     chaotischGestructureerd: true,
-    hartslag: 60
+    hartslag: 70
 };
-
-// var data = {
-// 	color: [ 255, 70, 220 ],
-//     speed1: .021,
-//     level:  .3,
-//     var1: 1,
-//     var2: 0.033,
-//     speed2: .09
-// };
 
 
 var scene = new Scene(document.body);
