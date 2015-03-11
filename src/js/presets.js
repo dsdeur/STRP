@@ -1,5 +1,3 @@
-var _ = require('lodash');
-
 module.exports.matchPresets = function(data) {
 	// console.log(data);
     var config = [
@@ -36,7 +34,7 @@ module.exports.matchPresets = function(data) {
 			var2: 0.629
 		}
     ]
-    
+
 	var presets = [
 		{
 			introvertExtravert: true,
@@ -52,7 +50,7 @@ module.exports.matchPresets = function(data) {
 		{
 			klassiekModern: true,
 			rustigDruk: false,
-			natuurFuturistisch: false		
+			natuurFuturistisch: false
         },
 		{
 			rustigDruk: false,
@@ -73,49 +71,49 @@ module.exports.matchPresets = function(data) {
 		},
 		{
 			rustigDruk: false,
-			chaotischGestructureerd: true 
+			chaotischGestructureerd: true
 		},
 		{
 			volgendLeidend: false,
 			introvertExtravert: true,
 			natuurFuturistisch: false,
 			rustigDruk: false
-		} 
+		}
 	]
-	
+
 	var mijnArray = [];
 	for( var x= 0; x < presets.length; x++){
 		var counter = 0;
-      
+
 	    for(var prop in presets[x]) {
 	        if(!presets[x].hasOwnProperty(prop)) {
 	        	return;
 	        }
-	        
+
 	        if(data[prop] == presets[x][prop]) {
 	        	counter++;
 	        }
 	    }
       	// Loop through preset properties
       		// Check if property value is the same in data and preset
-      		// Yes: counter++ 
+      		// Yes: counter++
         	mijnArray.push(counter);
 	}
 	var index = getMaxValueIndex(mijnArray);
 	console.log(index);
-  	return config[index]; 
+  	return config[index];
 }
 
 function getMaxValueIndex(arr) {
   	var max = arr[0]
     var maxIndex = 0;
-  
+
     for (var i = 1; i < arr.length; i++) {
       if (arr[i] > max) {
           maxIndex = i;
           max = arr[i];
       }
   	}
-  
+
   	return maxIndex;
 }
