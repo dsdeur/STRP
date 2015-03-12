@@ -24,6 +24,12 @@ window.onresize = function() {
 }
 
 var nebula = new Nebula(scene);
-nebula.newBlob(data);
+
+for(var x = 0; x < 25; x++) {
+	nebula.newBlob(data, 1);
+}
+for(var x = 0; x < 25; x++) {
+	nebula.newBlob(data, 2);
+}
 
 nebula.render();
