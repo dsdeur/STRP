@@ -6,6 +6,7 @@ var plumber = require('gulp-plumber');
 var gutil = require('gulp-util');
 var source = require('vinyl-source-stream');
 var browserify = require('browserify');
+stringify = require('stringify');
 
 
 // Set the paths
@@ -16,7 +17,7 @@ var paths = {
         dest: './build/css'
     },
     scripts: {
-        src: './src/js/**/*.{js,jsx}',
+        src: './src/js/**/*.{js,jsx,vs,fs}',
         dest: './build/js'
     },
     images: {
@@ -53,6 +54,7 @@ gulp.task('build-js', function() {
             debug: true,
             entries: './src/js/app.js',
         })
+        .transform(stringify(['.fs', '.vs']))
         .bundle()
         .on('error', function(err) {
             gutil.log(err);
