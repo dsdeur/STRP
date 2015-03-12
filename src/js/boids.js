@@ -18,17 +18,36 @@ initApp = function() {
 	flock = new Flock();
 
 	canvas.onclick = function(){
-		for(var i = 0; i < 3; i++){
-			var boid = new Boid("pop");
-			if(i <= 20){
-				boid.init(1, "red");
-			}
-			if(i > 20 && i <= 40){
-				boid.init(2, "green");
-			}
-			if(i > 40){
-				boid.init(3, "blue");
-			}
+		for(var count = 0; count < 55; count++){
+				var boid = new Boid("ID");
+
+				if (count >= 0) {
+					boid.init(1, "aqua");
+
+				}
+				if (count >= 5) {
+					boid.init(2, "orange");
+
+				}
+				if (count >= 10) {
+					boid.init(3, "tomato");
+
+				}
+				if (count >= 15) {
+					boid.init(4, "blue");
+
+				}
+				if (count >= 20) {
+					boid.init(5, "black");
+
+				}
+				if (count >= 30) {
+					boid.init(6, "green");
+
+				}
+				if (count >= 40) {
+					boid.init(7, "lime");
+				}
 			flock.addBoid(boid);
 		}
 	}
@@ -83,14 +102,15 @@ Boid = function(id) {
 	this.directionY = 0;
 	this.orientation = 360;
 	this.velocity = 2.5;
-	this.acceleration = 0;
+	this.forceX = 0;
+	this.forceY = 0;
 	this.color = "green";
 	this.ID = id;
 	this.group = 1;
 
 	this.init = function(groupID, color) {
-		this.x = 50 * Math.random();
-		this.y = 50 * Math.random();
+		this.x = canvasWidth / 2;
+		this.y = canvasHeight / 2;
 		this.directionX = this.x;
 		this.directionY = this.y + 10;
 		this.orientation *= Math.random();
@@ -100,9 +120,11 @@ Boid = function(id) {
 	}
 
 	this.run = function(boids) {
+		this.resetBoid();
 		this.separate(boids);
 		this.align(boids);
 		this.cohesion(boids);
+		this.avoid(boids);
 		this.update();
 		this.borders();
 		this.render(boids);
@@ -169,6 +191,9 @@ Boid = function(id) {
 			this.x -= x;
 			this.y -= y;
 		}
+
+		this.x += this.forceX;
+		this.y += this.forceY;
 	}
 
 	this.borders = function() {
@@ -180,10 +205,44 @@ Boid = function(id) {
 	}
 
 	this.separate = function(boids) {
+		var desiredSeparation = 5,
+			separationSpeed = 5,
+			forceX,
+			forceY,
+			nearestNeighbour = false,
+			nearestNeighbourOrientation = 0,
+			ratio;
+
+		for(var i = 0; i < boids.length; i++){
+			if(this.group == boids[i].group){
+				ratio = this.collision(this.x, this.y, boids[i].x, boids[i].y, desiredSeparation);
+				if(ratio != false){
+					if(ratio.distance < desiredSeparation * 2){
+						if(ratio.distance < nearestNeighbour || nearestNeighbour === false){
+							nearestNeighbour = ratio.distance;
+							nearestNeighbourOrientation = ratio.orientation;
+
+						}
+					}
+				}
+			}
+		}
+
+		if(nearestNeighbour != false){
+			nearestNeighbourOrientation -= 180;
+
+			if(nearestNeighbourOrientation < 0){
+				nearestNeighbourOrientation = 360 + nearestNeighbourOrientation;
+			}
+
+			//calculate the force
+			this.forceY = Math.sin(Math.radians(nearestNeighbourOrientation)) * separationSpeed;
+			this.forceX = Math.cos(Math.radians(nearestNeighbourOrientation)) * separationSpeed;
+		}
 	}
 
 	this.align = function(boids) {
-		var neighbourDistance = 30,
+		var neighbourDistance = 20,
 			averageAlignment = this.orientation,
 			counter = 1,
 			ratio;
@@ -211,10 +270,68 @@ Boid = function(id) {
 			this.orientation += 1.3;
 		}
 
+		this.orientation = averageAlignment;
+
 		this.preventFail();
 	}
 
 	this.cohesion = function(boids) {
+		var desiredCohesion = 10,
+			cohesionSpeed = 0.5,
+			forceX,
+			forceY,
+			nearestNeighbour = false,
+			averageNeighbourPos = 0,
+			ratio,
+			count;
+
+		for(var i = 0; i < boids.length; i++){
+
+			if(this.group == boids[i].group){
+				ratio = this.collision(this.x, this.y, boids[i].x, boids[i].y, desiredCohesion);
+
+				if(ratio != false){
+
+					if(ratio.distance < desiredCohesion * 2){
+
+						if(ratio.distance < nearestNeighbour || nearestNeighbour === false){
+
+							count++;
+							nearestNeighbour = ratio.distance;
+							averageNeighbourPos += ratio.orientation;
+
+						}
+
+					}
+
+				}
+			}
+		}
+
+		if(nearestNeighbour != false){
+			//calculate the force
+			this.forceY += Math.sin(Math.radians(averageNeighbourPos)) * cohesionSpeed;
+			this.forceX = Math.cos(Math.radians(averageNeighbourPos)) * cohesionSpeed;
+		}
+	}
+
+	this.avoid = function(boids){
+		var neighbourDistance = 30;
+		for(var i = 0; i < boids.length; i++){
+			if(this.group != boids[i].group){
+
+				ratio = this.collision(this.x, this.y, boids[i].x, boids[i].y, neighbourDistance);
+
+				if(ratio != false){
+					if(ratio.distance < neighbourDistance * 2){
+						this.orientation -= 0.3;
+						if(this.orientation < 0){
+							this.orientation = 360 - this.orientation;
+						}
+					}
+				}
+			}
+		}
 	}
 
 	this.preventFail = function() { //hernoemen
@@ -225,6 +342,11 @@ Boid = function(id) {
 		if(this.orientation < 0){
 			this.orientation = 360 + this.orientation;
 		}
+	}
+
+	this.resetBoid = function(){
+		this.forceY = 0;
+		this.forceX = 0;
 	}
 
 	this.render = function(boids) {
