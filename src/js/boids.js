@@ -241,12 +241,8 @@ Boid = function(id) {
 			dx = (x1) - (x2),
 			dy = (y1) - (y2),
 			distance = Math.sqrt(dx * dx + dy * dy);
-
-			if (distance < radius * 2) {
-				return true;
-			}else{
-				return false;
-			}
+			
+			return (distance < radius * 2);
 		}
 	}
 }
