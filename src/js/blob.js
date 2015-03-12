@@ -13,7 +13,7 @@ module.exports = function(config, group) {
         this.initBoid();
 
         // Create the object
-        this.geometry = new THREE.SphereGeometry(7, 35, 35);
+        this.geometry = new THREE.SphereGeometry(10, Math.floor(Math.random() * 35) + 5, Math.floor(Math.random() * 35) + 5);
         // this.geometry = new THREE.SphereGeometry(Math.floor(Math.random() * 15) + 6, 40, 40);
 
         this.material = new THREE.MeshPhongMaterial({ambient: 0xff0000, color: 0xff0000, wireframe: config.wireframe})
