@@ -215,8 +215,7 @@ Boid = function(id) {
 		if(this.orientation > 360){
 			this.orientation = this.orientation - 360;
 		}
-
-		if(this.orientation < 0){
+		else if(this.orientation < 0){
 			this.orientation = 360 + this.orientation;
 		}
 	}
