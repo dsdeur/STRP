@@ -1,15 +1,21 @@
 var THREE = require('three');
+var Boid = require('./boid.js');
 
-module.exports = function(config) {
+module.exports = function(config, group) {
     this.config = config ? config : randomConfig();
     var t = 0;
     var bt = 0;
+    this.group = group;
+    this.x = 0;
+    this.y = 0;
 
     this.init = function() {
+        this.initBoid();
+
         // Create the object
-        this.geometry = new THREE.SphereGeometry(15, 35, 35);
+        this.geometry = new THREE.SphereGeometry(7, 35, 35);
         // this.geometry = new THREE.SphereGeometry(Math.floor(Math.random() * 15) + 6, 40, 40);
-        
+
         this.material = new THREE.MeshPhongMaterial({ambient: 0xff0000, color: 0xff0000, wireframe: config.wireframe})
         this.object = new THREE.Mesh(this.geometry, this.material);
 
@@ -39,10 +45,9 @@ module.exports = function(config) {
         this.object.material.ambient.b = this.object.material.color.b = this.config.color[2] / 255;
     };
 
-    // Change the blob position
-    this.move = function(x, y) {
-        this.object.position.x = x;
-        this.object.position.y = y;
+    this.initBoid = function() {
+        this.boid = new Boid();
+        this.boid.init(this.group, 0, 0);
     };
 
     // Animate the blob shape
@@ -70,6 +75,25 @@ module.exports = function(config) {
         // Set the vertices for updating
         this.object.geometry.verticesNeedUpdate = true;
         this.object.geometry.normalsNeedUpdate = true;
+    };
+
+    this.update = function(boids) {
+        this.animate();
+        var position = this.boid.run(boids);
+        this.reposition(position.x, position.y);
+
+        this.x = 0;
+        this.y = 0;
+
+        this.x = position.x;
+        this.y = position.y;
+        this.reposition();
+    };
+
+    // Change the blob position
+    this.reposition = function() {
+        this.object.position.x = this.x;
+        this.object.position.y = this.y;
     };
 
     // Return a random config
