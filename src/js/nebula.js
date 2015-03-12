@@ -1,10 +1,23 @@
 var Scene = require('./scene.js');
 var Blob = require('./blob.js');
-var Converter = require('./configConverter.js')
+var Converter = require('./configConverter.js');
+var Socket = require('./socket.js');
+
 module.exports = function(scene) {
     var self = this;
     this.scene = scene;
     this.blobs = [];
+
+    this.socket = new Socket("ws://127.0.0.1:8520", {
+        'new_data': this.newData
+    });
+
+    // New data handler
+    this.newData = function(data) {
+        // Process data
+        // New blobs
+        // Adjust groups
+    };
 
     this.newBlob = function(data) {
         var config = Converter.getConfig(data);
@@ -21,5 +34,5 @@ module.exports = function(scene) {
         }
 
         self.scene.render();
-    }
+    };
 }
