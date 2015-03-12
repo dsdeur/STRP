@@ -200,8 +200,7 @@ Boid = function(id) {
 		if(averageAlignment < this.orientation || averageAlignment > this.orientation + 180){
 			this.orientation -= 1.3;
 		}
-
-		if(averageAlignment > this.orientation || averageAlignment < this.orientation - 180){
+		else if(averageAlignment > this.orientation || averageAlignment < this.orientation - 180){
 			this.orientation += 1.3;
 		}
 
@@ -215,8 +214,7 @@ Boid = function(id) {
 		if(this.orientation > 360){
 			this.orientation = this.orientation - 360;
 		}
-
-		if(this.orientation < 0){
+		else if(this.orientation < 0){
 			this.orientation = 360 + this.orientation;
 		}
 	}
@@ -241,12 +239,8 @@ Boid = function(id) {
 			dx = (x1) - (x2),
 			dy = (y1) - (y2),
 			distance = Math.sqrt(dx * dx + dy * dy);
-
-			if (distance < radius * 2) {
-				return true;
-			}else{
-				return false;
-			}
+			
+			return (distance < radius * 2);
 		}
 	}
 }
