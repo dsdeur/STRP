@@ -200,8 +200,7 @@ Boid = function(id) {
 		if(averageAlignment < this.orientation || averageAlignment > this.orientation + 180){
 			this.orientation -= 1.3;
 		}
-
-		if(averageAlignment > this.orientation || averageAlignment < this.orientation - 180){
+		else if(averageAlignment > this.orientation || averageAlignment < this.orientation - 180){
 			this.orientation += 1.3;
 		}
 
