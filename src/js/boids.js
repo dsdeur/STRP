@@ -18,7 +18,7 @@ initApp = function() {
 	flock = new Flock();
 
 	canvas.onclick = function(){
-		for(var i = 0; i < 55; i++){
+		for(var i = 0; i < 3; i++){
 			var boid = new Boid("pop");
 			if(i <= 20){
 				boid.init(1, "red");
@@ -82,15 +82,15 @@ Boid = function(id) {
 	this.directionX = 0;
 	this.directionY = 0;
 	this.orientation = 360;
-	this.velocity = 0.5;
+	this.velocity = 2.5;
 	this.acceleration = 0;
 	this.color = "green";
 	this.ID = id;
 	this.group = 1;
 
 	this.init = function(groupID, color) {
-		this.x *= Math.random();
-		this.y *= Math.random();
+		this.x = 50 * Math.random();
+		this.y = 50 * Math.random();
 		this.directionX = this.x;
 		this.directionY = this.y + 10;
 		this.orientation *= Math.random();
@@ -185,13 +185,19 @@ Boid = function(id) {
 	this.align = function(boids) {
 		var neighbourDistance = 30,
 			averageAlignment = this.orientation,
-			counter = 1;
+			counter = 1,
+			ratio;
 
 		for(var i = 0; i < boids.length; i++){
 			if(this.group == boids[i].group){
-				if(this.collision(this.x, this.y, boids[i].x, boids[i].y, neighbourDistance)){
-					counter++;
-					averageAlignment += boids[i].orientation;
+
+				ratio = this.collision(this.x, this.y, boids[i].x, boids[i].y, neighbourDistance);
+
+				if(ratio != false){
+					if(ratio.distance < neighbourDistance * 2){
+						counter++;
+						averageAlignment += boids[i].orientation;
+					}
 				}
 			}
 		}
@@ -235,18 +241,42 @@ Boid = function(id) {
 		var radius = radius,
 		dx,
 		dy,
-		distance;
+		distance,
+		degrees;
 
 		if(x1 != x2 && y1 != y2){
-			dx = (x1) - (x2),
-			dy = (y1) - (y2),
+			dx = x1 - x2,
+			dy = y1 - y2,
 			distance = Math.sqrt(dx * dx + dy * dy);
 
-			if (distance < radius * 2) {
-				return true;
+			if (distance < radius * 2) { // als er een collision is
+				if(x1 > x2 && y1 > y2){
+					// 270 graden tot 360
+					degrees = 360 - Math.degrees(Math.atan(dx/dy));
+
+				}else if (x1 < x2 && y1 > y2){
+					// 0 graden tot 90
+					degrees = -Math.degrees(Math.atan(dx/dy));
+
+				}else if (x1 < x2 && y1 < y2){
+					// 90 graden tot 180
+					degrees = 180 - Math.degrees(Math.atan(dx/dy));
+
+				}else if (x1 > x2 && y1 < y2){
+					// 180 graden tot 270
+					degrees = 180 - Math.degrees(Math.atan(dx/dy));
+
+				}
+
+				return {
+					distance: distance,
+					orientation: degrees
+				}
 			}else{
 				return false;
 			}
+		}else{
+			return false;
 		}
 	}
 }
@@ -256,5 +286,7 @@ Math.radians = function(degrees) {
   return degrees * Math.PI / 180;
 };
 
-
+Math.degrees = function(radians) {
+  return radians * 180 / Math.PI;
+};
 // and Robbert fixed some shit too
