@@ -17,28 +17,28 @@ module.exports = function(config, group) {
         this.initBoid();
 
         // Create the object
-        this.geometry = new THREE.SphereGeometry(10, Math.floor(Math.random() * 35) + 5, Math.floor(Math.random() * 35) + 5);
+        this.geometry = new THREE.SphereGeometry(5, Math.floor(Math.random() * 35) + 5, Math.floor(Math.random() * 35) + 5);
         this.geometry.computeVertexNormals();
 
         this.attributes = new TransformAttributes();
     	this.uniforms = new TransformUniforms(config);
 
-        if(this.config.wireframe) {
-            this.material = new THREE.ShaderMaterial({
-                uniforms: this.uniforms,
-                attributes: this.attributes,
-                vertexShader: vswireframe,
-                fragmentShader: fswireframe,
-            });
-
-        } else {
+        // if(this.config.wireframe) {
+        //     this.material = new THREE.ShaderMaterial({
+        //         uniforms: this.uniforms,
+        //         attributes: this.attributes,
+        //         vertexShader: vswireframe,
+        //         fragmentShader: fswireframe,
+        //     });
+        //
+        // } else {
             this.material = new THREE.ShaderMaterial({
                 uniforms: this.uniforms,
                 attributes: this.attributes,
                 vertexShader: vsnormal,
                 fragmentShader: fsnormal,
             });
-        }
+        //}
         //this.material = new THREE.MeshPhongMaterial({ambient: 0xff0000, color: 0xff0000, wireframe: config.wireframe})
 
         this.object = new THREE.Mesh(this.geometry, this.material);
@@ -63,7 +63,7 @@ module.exports = function(config, group) {
 
     this.initBoid = function() {
         this.boid = new Boid();
-        this.boid.init(this.group, 0, 0);
+        this.boid.init(this.group, Math.floor(Math.random() + 200), Math.floor(Math.random() + 200));
     };
 
     // Animate the blob shape
@@ -78,11 +78,10 @@ module.exports = function(config, group) {
         var position = this.boid.run(boids);
         this.reposition(position.x, position.y);
 
-        this.x = 0;
-        this.y = 0;
 
-        this.x = position.x;
-        this.y = position.y;
+        this.x = position.x - window.vrRegionX;
+        this.y = position.y - window.vrRegionY;
+
         this.reposition();
     };
 

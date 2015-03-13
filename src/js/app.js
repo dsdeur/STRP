@@ -40,14 +40,14 @@ window.onresize = function() {
 }
 
 var nebula = new Nebula(scene);
-for(var i = 0; i < 10; i++) {
+for(var i = 0; i < 5; i++) {
+
+	for(var x = 0; x < 10; x++) {
 	var color =  [
 		Math.floor(Math.random() * 254),
 		Math.floor(Math.random() * 254),
 		Math.floor(Math.random() * 254)
 	];
-
-	for(var x = 0; x < 10; x++) {
 		nebula.newBlob(randomData(color), i);
 	}
 }
