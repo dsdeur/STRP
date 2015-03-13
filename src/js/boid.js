@@ -88,7 +88,7 @@ module.exports = function() {
 	}
 
 	this.align = function(boids) {
-		var neighbourDistance = 60,
+		var neighbourDistance = 100,
 			averageAlignment = this.orientation,
 			counter = 1;
 
