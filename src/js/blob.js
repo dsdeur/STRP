@@ -15,7 +15,7 @@ module.exports = function(config, group) {
         this.initBoid();
 
         // Create the object
-        this.geometry = new THREE.SphereGeometry(10, Math.floor(Math.random() * 35) + 5, Math.floor(Math.random() * 35) + 5);
+        this.geometry = new THREE.SphereGeometry(15, Math.floor(Math.random() * 35) + 5, Math.floor(Math.random() * 35) + 5);
 
         this.attributes = new TransformAttributes();
     	this.uniforms = new TransformUniforms(config);
