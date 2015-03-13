@@ -1,7 +1,9 @@
 var THREE = require('three');
 var Boid = require('./boid.js');
-var vs = require('./shaders/transform_normal.vs');
-var fs = require('./shaders/transform_normal.fs');
+var vsnormal = require('./shaders/transform_normal.vs');
+var fsnormal = require('./shaders/transform_normal.fs');
+var vswireframe = require('./shaders/transform_wireframe.vs');
+var fswireframe = require('./shaders/transform_wireframe.fs');
 var TransformUniforms = require('./shaders/transform_normal_uniforms.js');
 var TransformAttributes = require('./shaders/transform_normal_attributes.js');
 
@@ -15,18 +17,29 @@ module.exports = function(config, group) {
         this.initBoid();
 
         // Create the object
-        this.geometry = new THREE.SphereGeometry(15, Math.floor(Math.random() * 35) + 5, Math.floor(Math.random() * 35) + 5);
+        this.geometry = new THREE.SphereGeometry(10, Math.floor(Math.random() * 35) + 5, Math.floor(Math.random() * 35) + 5);
+        this.geometry.computeVertexNormals();
 
         this.attributes = new TransformAttributes();
     	this.uniforms = new TransformUniforms(config);
 
+        if(this.config.wireframe) {
+            this.material = new THREE.ShaderMaterial({
+                uniforms: this.uniforms,
+                attributes: this.attributes,
+                vertexShader: vswireframe,
+                fragmentShader: fswireframe,
+            });
+
+        } else {
+            this.material = new THREE.ShaderMaterial({
+                uniforms: this.uniforms,
+                attributes: this.attributes,
+                vertexShader: vsnormal,
+                fragmentShader: fsnormal,
+            });
+        }
         //this.material = new THREE.MeshPhongMaterial({ambient: 0xff0000, color: 0xff0000, wireframe: config.wireframe})
-        this.material = new THREE.ShaderMaterial({
-            uniforms: this.uniforms,
-            attributes: this.attributes,
-            vertexShader: vs,
-            fragmentShader: fs,
-        });
 
         this.object = new THREE.Mesh(this.geometry, this.material);
 
@@ -55,6 +68,7 @@ module.exports = function(config, group) {
 
     // Animate the blob shape
     this.animate = function() {
+        // Time based
         this.uniforms.t.value += this.config.speed1;
         this.uniforms.bt.value += this.config.speed2;
     };

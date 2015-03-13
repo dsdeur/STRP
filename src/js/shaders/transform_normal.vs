@@ -17,10 +17,10 @@ void main() {
 
 	vNormal = normal;
 
-	float scale = sin(t + displacement * ((1.0 + displacement)/(1.0 + displacement * var2)) * var1/40.0) * sin(bt * displacement/len) * level;
-    float x = ox + ox * scale;
-    float y = oy + oy * scale;
-    float z = oz + oz * scale;
+	float scale = 1.0 + sin(t + displacement * ((1.0 + displacement)/(1.0 + displacement * var2)) * var1/40.0) * sin(bt * displacement/len) * level;
+    float x = ox * scale;
+    float y = oy * scale;
+    float z = oz * scale;
 
 	vec3 newPosition = position + position * scale;
 
