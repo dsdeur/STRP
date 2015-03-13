@@ -3,6 +3,17 @@ var Blob = require('./blob.js');
 var Converter = require('./configConverter.js');
 var Socket = require('./socket.js');
 var Flock = require('./flock.js');
+var Stats = require('./lib/Stats.js');
+
+var stats = new Stats();
+stats.setMode(2); // 0: fps, 1: ms
+
+// align top-left
+stats.domElement.style.position = 'absolute';
+stats.domElement.style.left = '0px';
+stats.domElement.style.top = '0px';
+
+document.body.appendChild( stats.domElement );
 
 module.exports = function(scene) {
     var self = this;
@@ -38,7 +49,7 @@ module.exports = function(scene) {
     };
 
     this.render = function() {
-        requestAnimationFrame(self.render)
+        stats.begin();
 
         for (var key in self.flocks) {
             if (self.flocks.hasOwnProperty(key)) {
@@ -46,6 +57,9 @@ module.exports = function(scene) {
             }
         }
 
+        stats.end();
+
         self.scene.render();
+        requestAnimationFrame(self.render)
     };
 }

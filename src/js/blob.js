@@ -28,10 +28,7 @@ module.exports = function(config, group) {
             fragmentShader: fs,
         });
 
-
         this.object = new THREE.Mesh(this.geometry, this.material);
-        //console.log(this.object);
-
 
         //Get attributes
         var values = this.attributes.displacement.value;
