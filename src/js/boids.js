@@ -205,7 +205,7 @@ Boid = function(id) {
 	}
 
 	this.separate = function(boids) {
-		var desiredSeparation = 5,
+		var desiredSeparation = 10,
 			separationSpeed = 5,
 			forceX,
 			forceY,
@@ -242,7 +242,7 @@ Boid = function(id) {
 	}
 
 	this.align = function(boids) {
-		var neighbourDistance = 20,
+		var neighbourDistance = 30,
 			averageAlignment = this.orientation,
 			counter = 1,
 			ratio;
@@ -276,7 +276,7 @@ Boid = function(id) {
 	}
 
 	this.cohesion = function(boids) {
-		var desiredCohesion = 10,
+		var desiredCohesion = 20,
 			cohesionSpeed = 0.5,
 			forceX,
 			forceY,
@@ -316,7 +316,7 @@ Boid = function(id) {
 	}
 
 	this.avoid = function(boids){
-		var neighbourDistance = 30;
+		var neighbourDistance = 20;
 		for(var i = 0; i < boids.length; i++){
 			if(this.group != boids[i].group){
 
@@ -325,9 +325,7 @@ Boid = function(id) {
 				if(ratio != false){
 					if(ratio.distance < neighbourDistance * 2){
 						this.orientation -= 0.3;
-						if(this.orientation < 0){
-							this.orientation = 360 - this.orientation;
-						}
+						this.preventFail();
 					}
 				}
 			}
@@ -352,8 +350,9 @@ Boid = function(id) {
 	this.render = function(boids) {
 		document.getElementById("hoi").innerHTML = boids[0].orientation;
 		context.beginPath();
-		context.moveTo(this.x,this.y);
-		context.lineTo(this.directionX,this.directionY);
+		//context.moveTo(this.x,this.y);
+		//context.lineTo(this.directionX,this.directionY);
+		context.arc(this.x, this.y, 5, 0, 2*Math.PI);
 		context.strokeStyle = this.color;
 		context.lineWidth = 2;
 		context.stroke();
