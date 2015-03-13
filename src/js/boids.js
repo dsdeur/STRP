@@ -1,4 +1,5 @@
 // made by Jodie Lo
+// and Robbert fixed some shit too
 
 var canvas,
 		context,
@@ -338,7 +339,7 @@ Boid = function(id) {
 		}
 
 		if(this.orientation < 0){
-			this.orientation = 360 + this.orientation;
+			this.orientation = this.orientation + 360;
 		}
 	}
 
@@ -353,7 +354,17 @@ Boid = function(id) {
 		//context.moveTo(this.x,this.y);
 		//context.lineTo(this.directionX,this.directionY);
 		context.arc(this.x, this.y, 5, 0, 2*Math.PI);
+		context.fillStyle = this.color;
+		context.fill();
 		context.strokeStyle = this.color;
+		context.lineWidth = 2;
+		context.stroke();
+
+		context.beginPath();
+		context.arc(boids[0].x, boids[0].y, 10, 0, 2*Math.PI);
+		context.fillStyle = boids[0].color;
+		context.fill();
+		context.strokeStyle = boids[0].color;
 		context.lineWidth = 2;
 		context.stroke();
 	}
@@ -410,4 +421,3 @@ Math.radians = function(degrees) {
 Math.degrees = function(radians) {
   return radians * 180 / Math.PI;
 };
-// and Robbert fixed some shit too
