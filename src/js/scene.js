@@ -3,6 +3,7 @@ var THREE = require('three');
 module.exports = function(element) {
     var self = this;
     this.element = element;
+    this.z = 300;
 
     // Init the scene camera and lights
     this.init = function(element) {
@@ -30,12 +31,11 @@ module.exports = function(element) {
         this.light.shadowCameraFar = 3500;
 
         // Set camera position
-        this.camera.position.y = 100;
-        this.camera.position.z = 300;
+        this.camera.position.z = this.z;
 
         // Add lights to the scene
-        this.scene.add(this.ambient);
-        this.scene.add(this.light);
+        //this.scene.add(this.ambient);
+        //this.scene.add(this.light);
     };
 
     // Resize the canvas
@@ -43,6 +43,19 @@ module.exports = function(element) {
         this.camera.aspect = width / height;
         this.renderer.setSize(width, height);
         this.camera.updateProjectionMatrix();
+
+        this.recalculateVrRegion();
+    };
+
+    this.recalculateVrRegion = function() {
+        var vFOV = this.camera.fov * Math.PI / 180;        // convert vertical fov to radians
+        var height = 2 * Math.tan( vFOV / 2 ) * this.z; // visible height
+
+        var aspect = window.innerWidth / window.innerHeight;
+        var width = height * aspect;
+
+        window.vrRegionX = (width + 25) / 2;
+        window.vrRegionY = (height+ 25) / 2;
     };
 
     // Add object to the scene

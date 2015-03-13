@@ -1,76 +1,84 @@
 var THREE = require('three');
+var Boid = require('./boid.js');
 var vs = require('./shaders/transform_normal.vs');
 var fs = require('./shaders/transform_normal.fs');
-var transformUniforms = require('./shaders/transform_normal_uniforms.js');
-var transformAttributes = require('./shaders/transform_normal_attributes.js');
+var TransformUniforms = require('./shaders/transform_normal_uniforms.js');
+var TransformAttributes = require('./shaders/transform_normal_attributes.js');
 
-module.exports = function(config) {
+module.exports = function(config, group) {
     this.config = config ? config : randomConfig();
-    var t = 0;
-    var bt = 0;
+    this.group = group;
+    this.x = 0;
+    this.y = 0;
 
     this.init = function() {
+        this.initBoid();
+
         // Create the object
-        this.geometry = new THREE.SphereGeometry(50, 40, 40);
-        // this.geometry = new THREE.SphereGeometry(Math.floor(Math.random() * 15) + 6, 40, 40);
+        this.geometry = new THREE.SphereGeometry(10, Math.floor(Math.random() * 35) + 5, Math.floor(Math.random() * 35) + 5);
 
-        var shader = THREE.ShaderLib.phong;
-        var normalUniforms = THREE.UniformsUtils.clone(shader.uniforms);
-        this.uniforms = THREE.UniformsUtils.merge([normalUniforms, transformUniforms]);
-        this.attributes = transformAttributes;
+        this.attributes = new TransformAttributes();
+    	this.uniforms = new TransformUniforms(config);
 
-        this.material = new THREE.MeshPhongMaterial({ambient: 0xff0000, color: 0xff0000, wireframe: config.wireframe})
+        //this.material = new THREE.MeshPhongMaterial({ambient: 0xff0000, color: 0xff0000, wireframe: config.wireframe})
         this.material = new THREE.ShaderMaterial({
-            uniforms: normalUniforms,
-            //attributes: this.attributes,
-            vertexShader: shader.vertexShader,
-            fragmentShader: shader.fragmentShader,
+            uniforms: this.uniforms,
+            attributes: this.attributes,
+            vertexShader: vs,
+            fragmentShader: fs,
         });
-        // console.log(JSON.stringify(normalUniforms));
-        console.log(this.material, this.material['__webglShader']);
+
+
         this.object = new THREE.Mesh(this.geometry, this.material);
+        //console.log(this.object);
 
-        // Shadow options
-        // this.object.castShadow = true;
-        // this.object.receiveShadow = true;
 
-        // Get attributes
-        // var values = this.attributes.displacement.value;
-        // var ox = this.attributes.ox.value;
-        // var oy = this.attributes.oy.value;
-        // var oz = this.attributes.oz.value;
+        //Get attributes
+        var values = this.attributes.displacement.value;
+        var ox = this.attributes.ox.value;
+        var oy = this.attributes.oy.value;
+        var oz = this.attributes.oz.value;
 
         // Store vertices positions
-        // var vertices = this.object.geometry.vertices;
-        // for(var i = 0, len = vertices.length; i < len; i++) {
-        //     values.push(i)
-        //     ox.push(vertices[i].x);
-        //     oy.push(vertices[i].y);
-        //     oz.push(vertices[i].z);
-        // }
+        var vertices = this.object.geometry.vertices;
+        for(var i = 0, len = vertices.length; i < len; i++) {
+            values.push(i)
+            ox.push(vertices[i].x);
+            oy.push(vertices[i].y);
+            oz.push(vertices[i].z);
+        }
 
-        // Randomize the position
-        // this.object.position.x = 0; //Math.floor(Math.random() * 500) + -250;
-        // this.object.position.y = 100; //Math.floor(Math.random() * 500) + -250;
-        // this.object.position.z = 0; //Math.floor(Math.random() * 700) + -350;
-
-
-        // Apply this color
-        // this.object.material.ambient.r = this.object.material.color.r = this.config.color[0] / 255;
-        // this.object.material.ambient.g = this.object.material.color.g = this.config.color[1] / 255;
-        // this.object.material.ambient.b = this.object.material.color.b = this.config.color[2] / 255;
+        this.uniforms.len.value = vertices.length;
     };
 
-    // Change the blob position
-    this.move = function(x, y) {
-        this.object.position.x = x;
-        this.object.position.y = y;
+    this.initBoid = function() {
+        this.boid = new Boid();
+        this.boid.init(this.group, 0, 0);
     };
 
     // Animate the blob shape
     this.animate = function() {
-        // this.uniforms.t.value += config.speed1;
-        // this.uniforms.bt.value += config.speed2;
+        this.uniforms.t.value += this.config.speed1;
+        this.uniforms.bt.value += this.config.speed2;
+    };
+
+    this.update = function(boids) {
+        this.animate();
+        var position = this.boid.run(boids);
+        this.reposition(position.x, position.y);
+
+        this.x = 0;
+        this.y = 0;
+
+        this.x = position.x;
+        this.y = position.y;
+        this.reposition();
+    };
+
+    // Change the blob position
+    this.reposition = function() {
+        this.object.position.x = this.x;
+        this.object.position.y = this.y;
     };
 
     // Return a random config

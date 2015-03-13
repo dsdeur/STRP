@@ -100,7 +100,7 @@ module.exports.matchPresets = function(data) {
         	mijnArray.push(counter);
 	}
 	var index = getMaxValueIndex(mijnArray);
-	console.log(index);
+	//console.log(index);
   	return config[index];
 }
 

@@ -1,25 +1,51 @@
 var Scene = require('./scene.js');
 var Blob = require('./blob.js');
-var Converter = require('./configConverter.js')
+var Converter = require('./configConverter.js');
+var Socket = require('./socket.js');
+var Flock = require('./flock.js');
+
 module.exports = function(scene) {
     var self = this;
     this.scene = scene;
-    this.blobs = [];
+    this.flocks = {};
 
-    this.newBlob = function(data) {
+    this.socket = new Socket("ws://127.0.0.1:8520", {
+        'new_data': this.newData
+    });
+
+    // New data handler
+    this.newData = function(data) {
+        // Process data
+        // New blobs
+        // Adjust groups
+    };
+
+    this.newFlock = function(group) {
+        var flock = new Flock();
+        this.flocks[group] = flock;
+    }
+
+    this.newBlob = function(data, group) {
         var config = Converter.getConfig(data);
-        var blob = new Blob(config);
-        this.blobs.push(blob);
-        this.scene.add(this.blobs[this.blobs.length-1].object);
+        var blob = new Blob(config, group);
+
+        if(!this.flocks.hasOwnProperty(group)) {
+            this.newFlock(group);
+        }
+
+        this.flocks[group].addBoid(blob);
+        this.scene.add(blob.object);
     };
 
     this.render = function() {
         requestAnimationFrame(self.render)
 
-        for(var i = 0, len = self.blobs.length; i < len; i++) {
-            self.blobs[i].animate();
+        for (var key in self.flocks) {
+            if (self.flocks.hasOwnProperty(key)) {
+                self.flocks[key].run();
+            }
         }
 
         self.scene.render();
-    }
+    };
 }

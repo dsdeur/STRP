@@ -1,20 +1,23 @@
-var attributes = {
-    displacement: {
+var attributes = function() {
+    this.displacement = {
 		type: 'f', // a float
 		value: [] // an empty array
-	},
-    ox: {
+	};
+
+    this.ox = {
         type: 'f',
         value: []
-    },
-    oy: {
+    };
+
+    this.oy = {
         type: 'f',
         value: []
-    },
-    oz: {
+    };
+
+    this.oz = {
         type: 'f',
         value: []
-    }
+    };
 };
 
 module.exports = attributes;
