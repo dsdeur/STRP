@@ -1,4 +1,5 @@
 // made by Jodie Lo
+// and Robbert fixed some shit too
 
 var canvas,
 		context,
@@ -18,17 +19,36 @@ initApp = function() {
 	flock = new Flock();
 
 	canvas.onclick = function(){
-		for(var i = 0; i < 55; i++){
-			var boid = new Boid("pop");
-			if(i <= 20){
-				boid.init(1, "red");
-			}
-			if(i > 20 && i <= 40){
-				boid.init(2, "green");
-			}
-			if(i > 40){
-				boid.init(3, "blue");
-			}
+		for(var count = 0; count < 55; count++){
+				var boid = new Boid("ID");
+
+				if (count >= 0) {
+					boid.init(1, "aqua");
+
+				}
+				if (count >= 5) {
+					boid.init(2, "orange");
+
+				}
+				if (count >= 10) {
+					boid.init(3, "tomato");
+
+				}
+				if (count >= 15) {
+					boid.init(4, "blue");
+
+				}
+				if (count >= 20) {
+					boid.init(5, "black");
+
+				}
+				if (count >= 30) {
+					boid.init(6, "green");
+
+				}
+				if (count >= 40) {
+					boid.init(7, "lime");
+				}
 			flock.addBoid(boid);
 		}
 	}
@@ -82,15 +102,16 @@ Boid = function(id) {
 	this.directionX = 0;
 	this.directionY = 0;
 	this.orientation = 360;
-	this.velocity = 0.5;
-	this.acceleration = 0;
+	this.velocity = 2.5;
+	this.forceX = 0;
+	this.forceY = 0;
 	this.color = "green";
 	this.ID = id;
 	this.group = 1;
 
 	this.init = function(groupID, color) {
-		this.x *= Math.random();
-		this.y *= Math.random();
+		this.x = canvasWidth / 2;
+		this.y = canvasHeight / 2;
 		this.directionX = this.x;
 		this.directionY = this.y + 10;
 		this.orientation *= Math.random();
@@ -100,9 +121,11 @@ Boid = function(id) {
 	}
 
 	this.run = function(boids) {
+		this.resetBoid();
 		this.separate(boids);
 		this.align(boids);
 		this.cohesion(boids);
+		this.avoid(boids);
 		this.update();
 		this.borders();
 		this.render(boids);
@@ -169,6 +192,9 @@ Boid = function(id) {
 			this.x -= x;
 			this.y -= y;
 		}
+
+		this.x += this.forceX;
+		this.y += this.forceY;
 	}
 
 	this.borders = function() {
@@ -180,18 +206,58 @@ Boid = function(id) {
 	}
 
 	this.separate = function(boids) {
+		var desiredSeparation = 10,
+			separationSpeed = 5,
+			forceX,
+			forceY,
+			nearestNeighbour = false,
+			nearestNeighbourOrientation = 0,
+			ratio;
+
+		for(var i = 0; i < boids.length; i++){
+			if(this.group == boids[i].group){
+				ratio = this.collision(this.x, this.y, boids[i].x, boids[i].y, desiredSeparation);
+				if(ratio != false){
+					if(ratio.distance < desiredSeparation * 2){
+						if(ratio.distance < nearestNeighbour || nearestNeighbour === false){
+							nearestNeighbour = ratio.distance;
+							nearestNeighbourOrientation = ratio.orientation;
+
+						}
+					}
+				}
+			}
+		}
+
+		if(nearestNeighbour != false){
+			nearestNeighbourOrientation -= 180;
+
+			if(nearestNeighbourOrientation < 0){
+				nearestNeighbourOrientation = 360 + nearestNeighbourOrientation;
+			}
+
+			//calculate the force
+			this.forceY = Math.sin(Math.radians(nearestNeighbourOrientation)) * separationSpeed;
+			this.forceX = Math.cos(Math.radians(nearestNeighbourOrientation)) * separationSpeed;
+		}
 	}
 
 	this.align = function(boids) {
 		var neighbourDistance = 30,
 			averageAlignment = this.orientation,
-			counter = 1;
+			counter = 1,
+			ratio;
 
 		for(var i = 0; i < boids.length; i++){
 			if(this.group == boids[i].group){
-				if(this.collision(this.x, this.y, boids[i].x, boids[i].y, neighbourDistance)){
-					counter++;
-					averageAlignment += boids[i].orientation;
+
+				ratio = this.collision(this.x, this.y, boids[i].x, boids[i].y, neighbourDistance);
+
+				if(ratio != false){
+					if(ratio.distance < neighbourDistance * 2){
+						counter++;
+						averageAlignment += boids[i].orientation;
+					}
 				}
 			}
 		}
@@ -200,31 +266,105 @@ Boid = function(id) {
 		if(averageAlignment < this.orientation || averageAlignment > this.orientation + 180){
 			this.orientation -= 1.3;
 		}
-		else if(averageAlignment > this.orientation || averageAlignment < this.orientation - 180){
+
+		if(averageAlignment > this.orientation || averageAlignment < this.orientation - 180){
 			this.orientation += 1.3;
 		}
+
+		this.orientation = averageAlignment;
 
 		this.preventFail();
 	}
 
 	this.cohesion = function(boids) {
+		var desiredCohesion = 20,
+			cohesionSpeed = 0.5,
+			forceX,
+			forceY,
+			nearestNeighbour = false,
+			averageNeighbourPos = 0,
+			ratio,
+			count;
+
+		for(var i = 0; i < boids.length; i++){
+
+			if(this.group == boids[i].group){
+				ratio = this.collision(this.x, this.y, boids[i].x, boids[i].y, desiredCohesion);
+
+				if(ratio != false){
+
+					if(ratio.distance < desiredCohesion * 2){
+
+						if(ratio.distance < nearestNeighbour || nearestNeighbour === false){
+
+							count++;
+							nearestNeighbour = ratio.distance;
+							averageNeighbourPos += ratio.orientation;
+
+						}
+
+					}
+
+				}
+			}
+		}
+
+		if(nearestNeighbour != false){
+			//calculate the force
+			this.forceY += Math.sin(Math.radians(averageNeighbourPos)) * cohesionSpeed;
+			this.forceX = Math.cos(Math.radians(averageNeighbourPos)) * cohesionSpeed;
+		}
+	}
+
+	this.avoid = function(boids){
+		var neighbourDistance = 20;
+		for(var i = 0; i < boids.length; i++){
+			if(this.group != boids[i].group){
+
+				ratio = this.collision(this.x, this.y, boids[i].x, boids[i].y, neighbourDistance);
+
+				if(ratio != false){
+					if(ratio.distance < neighbourDistance * 2){
+						this.orientation -= 0.3;
+						this.preventFail();
+					}
+				}
+			}
+		}
 	}
 
 	this.preventFail = function() { //hernoemen
 		if(this.orientation > 360){
 			this.orientation = this.orientation - 360;
 		}
-		else if(this.orientation < 0){
-			this.orientation = 360 + this.orientation;
+
+		if(this.orientation < 0){
+			this.orientation = this.orientation + 360;
 		}
+	}
+
+	this.resetBoid = function(){
+		this.forceY = 0;
+		this.forceX = 0;
 	}
 
 	this.render = function(boids) {
 		document.getElementById("hoi").innerHTML = boids[0].orientation;
 		context.beginPath();
-		context.moveTo(this.x,this.y);
-		context.lineTo(this.directionX,this.directionY);
+		//context.moveTo(this.x,this.y);
+		//context.lineTo(this.directionX,this.directionY);
+		context.arc(this.x, this.y, 5, 0, 2*Math.PI);
+		context.fillStyle = this.color;
+		context.fill();
 		context.strokeStyle = this.color;
+		context.lineWidth = 2;
+		context.stroke();
+
+		context.beginPath();
+		context.arc(boids[0].x, boids[0].y, 10, 0, 2*Math.PI);
+		context.fillStyle = boids[0].color;
+		context.fill();
+		context.strokeStyle = boids[0].color;
 		context.lineWidth = 2;
 		context.stroke();
 	}
@@ -233,14 +373,42 @@ Boid = function(id) {
 		var radius = radius,
 		dx,
 		dy,
-		distance;
+		distance,
+		degrees;
 
 		if(x1 != x2 && y1 != y2){
-			dx = (x1) - (x2),
-			dy = (y1) - (y2),
+			dx = x1 - x2,
+			dy = y1 - y2,
 			distance = Math.sqrt(dx * dx + dy * dy);
-			
-			return (distance < radius * 2);
+
+			if (distance < radius * 2) { // als er een collision is
+				if(x1 > x2 && y1 > y2){
+					// 270 graden tot 360
+					degrees = 360 - Math.degrees(Math.atan(dx/dy));
+
+				}else if (x1 < x2 && y1 > y2){
+					// 0 graden tot 90
+					degrees = -Math.degrees(Math.atan(dx/dy));
+
+				}else if (x1 < x2 && y1 < y2){
+					// 90 graden tot 180
+					degrees = 180 - Math.degrees(Math.atan(dx/dy));
+
+				}else if (x1 > x2 && y1 < y2){
+					// 180 graden tot 270
+					degrees = 180 - Math.degrees(Math.atan(dx/dy));
+
+				}
+
+				return {
+					distance: distance,
+					orientation: degrees
+				}
+			}else{
+				return false;
+			}
+		}else{
+			return false;
 		}
 	}
 }
@@ -250,5 +418,6 @@ Math.radians = function(degrees) {
   return degrees * Math.PI / 180;
 };
 
-
-// and Robbert fixed some shit too
+Math.degrees = function(radians) {
+  return radians * 180 / Math.PI;
+};
