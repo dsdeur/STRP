@@ -51,8 +51,6 @@ module.exports = function(scene) {
 
         stats.end();
 
-        stats.end();
-
         self.scene.render();
         requestAnimationFrame(self.render)
     };
