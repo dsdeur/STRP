@@ -37,11 +37,9 @@ module.exports = function(url, messageHandlers) {
     this.onMessage = function(e) {
         // Parse the incoming message
         var json = JSON.parse(e.data);
-        var message = json['message'];
-        var data = json['data'];
 
         // Call the message handler and pass the data
-        messageHandlers['message'](data);
+        messageHandlers['message'](json);
     }
 
     // Sends messages to server
