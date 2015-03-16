@@ -2,8 +2,6 @@ var THREE = require('three');
 var Boid = require('./boid.js');
 var vsnormal = require('./shaders/transform_normal.vs');
 var fsnormal = require('./shaders/transform_normal.fs');
-var vswireframe = require('./shaders/transform_wireframe.vs');
-var fswireframe = require('./shaders/transform_wireframe.fs');
 var TransformUniforms = require('./shaders/transform_normal_uniforms.js');
 var TransformAttributes = require('./shaders/transform_normal_attributes.js');
 
@@ -23,28 +21,15 @@ module.exports = function(config, group) {
         this.attributes = new TransformAttributes();
     	this.uniforms = new TransformUniforms(config);
 
-        var attributesMixed = { center: { type: 'v3', boundTo: 'faceVertices', value: [] } };
-        var valuesMixed = attributesMixed.center.value;
 
+        this.material = new THREE.ShaderMaterial({
+            uniforms: this.uniforms,
+            attributes: this.attributes,
+            vertexShader: vsnormal,
+            fragmentShader: fsnormal,
+            wireframe: this.config.wireframe
+        });
 
-        if(false) {
-            this.material = new THREE.ShaderMaterial({
-                uniforms: {},
-                attributes: attributesMixed,
-                vertexShader: vswireframe,
-                fragmentShader: fswireframe
-            });
-
-        } else {
-            this.material = new THREE.ShaderMaterial({
-                uniforms: this.uniforms,
-                attributes: this.attributes,
-                vertexShader: vsnormal,
-                fragmentShader: fsnormal
-            });
-        }
-
-        setupAttributes(this.geometry, valuesMixed);
 
         this.object = new THREE.Mesh(this.geometry, this.material);
 
@@ -96,11 +81,6 @@ module.exports = function(config, group) {
         this.object.position.y = this.y;
     };
 
-    function setupAttributes(geometry, values) {
-        for(var f = 0; f < geometry.faces.length; f++) {
-            values[f] = [new THREE.Vector3( 1, 0, 0 ), new THREE.Vector3( 0, 1, 0 ), new THREE.Vector3( 0, 0, 1 )];
-        }
-    }
 
     // Return a random config
     function randomConfig() {
