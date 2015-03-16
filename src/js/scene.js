@@ -7,7 +7,7 @@ module.exports = function(element) {
 
 
     //Mapping properties
-    this.skew = 0;
+    this.skew = -500;
 
     this.positions = [
         //Links boven | Rechts boven |  Links onder |   Rechts onder
@@ -15,9 +15,8 @@ module.exports = function(element) {
         [{x:-1,y:1},        {x:1,y:1},      {x:-1,y:-1},        {x:1,y:-1}],
     ]
 
-    this.cameraRTT1
-    this.cameraRTT2
-    this.sceneRTT1;
+    this.cameraRTT1;
+    this.cameraRTT2;
 
     this.rtTexture1;
     this.rtTexture2;
@@ -102,6 +101,7 @@ module.exports = function(element) {
         // Add lights to the scene
         this.scene.add(this.ambient);
         this.scene.add(this.light);
+
     };
 
     // Resize the canvas
@@ -125,10 +125,10 @@ module.exports = function(element) {
 
     // Render the scene
     this.render = function() {
-        //self.renderer.setClearColor(new THREE.Color().setRGB( 1, 1, 1 ));
+        self.renderer.setClearColor(new THREE.Color().setRGB( 1, 1, 1 ));
         self.renderer.render( self.scene, self.cameraRTT1, self.rtTexture1, true );
 
-       // self.renderer.setClearColor(new THREE.Color().setRGB( 0.5, 0.9, 0.4 ));     
+        self.renderer.setClearColor(new THREE.Color().setRGB( 0.5, 0.9, 0.4 ));     
         self.renderer.render( self.scene, self.cameraRTT2, self.rtTexture2, true );
 
         self.renderer.render(self.sceneRTT, self.camera);
