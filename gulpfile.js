@@ -6,6 +6,7 @@ var plumber = require('gulp-plumber');
 var gutil = require('gulp-util');
 var source = require('vinyl-source-stream');
 var browserify = require('browserify');
+stringify = require('stringify');
 
 
 // Set the paths
@@ -16,7 +17,7 @@ var paths = {
         dest: './build/css'
     },
     scripts: {
-        src: './src/js/**/*.{js,jsx}',
+        src: './src/js/**/*.{js,jsx,vs,fs}',
         dest: './build/js'
     },
     images: {
@@ -26,6 +27,10 @@ var paths = {
     html: {
         src: './src/*.html',
         dest: './build/'
+    },
+    audio: {
+        src: './src/sound/*.mp3',
+        dest: './build/sound'
     }
 };
 
@@ -46,6 +51,12 @@ gulp.task('html', function() {
         .pipe(gulp.dest(paths.html.dest));
 });
 
+// Process html files
+gulp.task('audio', function() {
+    return gulp.src(paths.audio.src)
+        .pipe(gulp.dest(paths.audio.dest));
+});
+
 // Build the javascript
 // Browserify
 gulp.task('build-js', function() {
@@ -53,6 +64,7 @@ gulp.task('build-js', function() {
             debug: true,
             entries: './src/js/app.js',
         })
+        .transform(stringify(['.fs', '.vs']))
         .bundle()
         .on('error', function(err) {
             gutil.log(err);
@@ -95,6 +107,6 @@ gulp.task('watcher', function() {
 });
 
 // Create tasks
-gulp.task('build', ['css', 'build-js', 'images', 'html']);
+gulp.task('build', ['css', 'build-js', 'images', 'html', 'audio']);
 gulp.task('default', ['serve', 'watch']);
 gulp.task('watch', ['build', 'watcher']);

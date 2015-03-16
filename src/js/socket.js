@@ -1,7 +1,6 @@
-module.exports = function(url, messageHandlers) {
+module.exports = function(url, messageHandler) {
     var self = this;
     this.url = url;
-    this.messageHandlers
     this.socket = null;
     this.isopen = null;
 
@@ -34,14 +33,12 @@ module.exports = function(url, messageHandlers) {
     };
 
     // Processes incoming messages and call message handler
-    this.onMessage = function(e) {
+    this.onMessage = function(data) {
         // Parse the incoming message
-        var json = JSON.parse(e.data);
-        var message = json['message'];
-        var data = json['data'];
+        var json = JSON.parse(data.data);
 
         // Call the message handler and pass the data
-        messageHandlers['message'](data);
+        messageHandler(json);
     }
 
     // Sends messages to server

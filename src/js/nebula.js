@@ -15,22 +15,18 @@ stats.domElement.style.top = '0px';
 
 document.body.appendChild( stats.domElement );
 
-
 module.exports = function(scene) {
     var self = this;
     this.scene = scene;
     this.flock = new Flock();
 
-    this.socket = new Socket("ws://127.0.0.1:8520", {
-        'new_data': this.newData
-    });
 
-    // New data handler
-    this.newData = function(data) {
+    this.socket = new Socket("ws://127.0.0.1:8888", function(data) {
         // Process data
         // New blobs
         // Adjust groups
-    };
+        console.log(data);
+    });
 
     // this.newFlock = function(group) {
     //     var flock = new Flock();
@@ -49,8 +45,6 @@ module.exports = function(scene) {
         stats.begin();
 
         self.flock.run();
-
-        stats.end();
 
         stats.end();
 

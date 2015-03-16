@@ -2,13 +2,13 @@ module.exports = function() {
 	this.x = 0;
 	this.y = 0;
 	this.orientation = 360;
-	this.velocity = 2.5;
+	this.velocity = 0.5;
 	this.forceX = 0;
 	this.forceY = 0;
 	this.group = 1;
 
 	this.init = function(groupID, x, y) {
-		this.x = 0;
+		this.x = x;
 		this.y = 0;
 		this.orientation *= Math.random();
 		this.group = groupID;
@@ -18,10 +18,12 @@ module.exports = function() {
 		this.resetBoid();
 		this.separate(boids);
 		this.align(boids);
-		this.cohesion(boids);
+		//this.cohesion(boids);
 		this.avoid(boids);
  		this.update();
 		this.borders();
+
+		//console.log(this.orientation);
 
 		return {
 			x: this.x,
@@ -76,17 +78,17 @@ module.exports = function() {
 	}
 
 	this.borders = function() {
-		if(this.x > window.vrRegionX){
-			this.x = window.vrRegionX*-1;
+		if(this.x > window.vrRegionX * 2){
+			this.x = 0;
 		}
-		if(this.x < window.vrRegionX*-1){
-			this.x = window.vrRegionX;
+		if(this.x < 0){
+			this.x = window.vrRegionX * 2;
 		}
-		if(this.y > window.vrRegionY){
-			this.y = window.vrRegionY*-1;
+		if(this.y > window.vrRegionY * 2){
+			this.y = 0;
 		}
-		if(this.y < window.vrRegionY*-1){
-			this.y = window.vrRegionY;
+		if(this.y < 0){
+			this.y = window.vrRegionY * 2;
 		}
 
 	}
@@ -101,8 +103,8 @@ module.exports = function() {
 			ratio;
 
 		for(var i = 0; i < boids.length; i++){
-			if(this.group == boids[i].group){
-				ratio = this.collision(this.x, this.y, boids[i].x, boids[i].y, desiredSeparation);
+			if(this.group == boids[i].boid.group){
+				ratio = this.collision(this.x, this.y, boids[i].boid.x, boids[i].boid.y, desiredSeparation);
 				if(ratio != false){
 					if(ratio.distance < desiredSeparation * 2){
 						if(ratio.distance < nearestNeighbour || nearestNeighbour === false){
@@ -135,14 +137,14 @@ module.exports = function() {
 			ratio;
 
 		for(var i = 0; i < boids.length; i++){
-			if(this.group == boids[i].group){
+			if(this.group == boids[i].boid.group){
 
-				ratio = this.collision(this.x, this.y, boids[i].x, boids[i].y, neighbourDistance);
+				ratio = this.collision(this.x, this.y, boids[i].boid.x, boids[i].boid.y, neighbourDistance);
 
 				if(ratio != false){
 					if(ratio.distance < neighbourDistance * 2){
 						counter++;
-						averageAlignment += boids[i].orientation;
+						averageAlignment += boids[i].boid.orientation;
 					}
 				}
 			}
@@ -157,7 +159,7 @@ module.exports = function() {
 			this.orientation += 1.3;
 		}
 
-		this.orientation = averageAlignment;
+		//this.orientation = averageAlignment;
 
 		this.preventFail();
 	}
@@ -174,8 +176,8 @@ module.exports = function() {
 
 		for(var i = 0; i < boids.length; i++){
 
-			if(this.group == boids[i].group){
-				ratio = this.collision(this.x, this.y, boids[i].x, boids[i].y, desiredCohesion);
+			if(this.group == boids[i].boid.group){
+				ratio = this.collision(this.x, this.y, boids[i].boid.x, boids[i].boid.y, desiredCohesion);
 
 				if(ratio != false){
 
@@ -203,11 +205,11 @@ module.exports = function() {
 	}
 
 	this.avoid = function(boids){
-		var neighbourDistance = 20;
+		var neighbourDistance = 10;
 		for(var i = 0; i < boids.length; i++){
-			if(this.group != boids[i].group){
+			if(this.group != boids[i].boid.group){
 
-				ratio = this.collision(this.x, this.y, boids[i].x, boids[i].y, neighbourDistance);
+				ratio = this.collision(this.x, this.y, boids[i].boid.x, boids[i].boid.y, neighbourDistance);
 
 				if(ratio != false){
 					if(ratio.distance < neighbourDistance * 2){

@@ -1,10 +1,12 @@
 var THREE = require('three');
 var Boid = require('./boid.js');
+var vsnormal = require('./shaders/transform_normal.vs');
+var fsnormal = require('./shaders/transform_normal.fs');
+var TransformUniforms = require('./shaders/transform_normal_uniforms.js');
+var TransformAttributes = require('./shaders/transform_normal_attributes.js');
 
 module.exports = function(config, group) {
     this.config = config ? config : randomConfig();
-    var t = 0;
-    var bt = 0;
     this.group = group;
     this.x = 0;
     this.y = 0;
@@ -13,68 +15,52 @@ module.exports = function(config, group) {
         this.initBoid();
 
         // Create the object
-        this.geometry = new THREE.SphereGeometry(10, Math.floor(Math.random() * 35) + 5, Math.floor(Math.random() * 35) + 5);
-        // this.geometry = new THREE.SphereGeometry(Math.floor(Math.random() * 15) + 6, 40, 40);
+        this.geometry = new THREE.SphereGeometry(15, Math.floor(Math.random() * 35) + 5, Math.floor(Math.random() * 35) + 5);
+        this.geometry.computeVertexNormals();
 
-        this.material = new THREE.MeshPhongMaterial({ambient: 0xff0000, color: 0xff0000, wireframe: config.wireframe})
+        this.attributes = new TransformAttributes();
+    	this.uniforms = new TransformUniforms(config);
+
+
+        this.material = new THREE.ShaderMaterial({
+            uniforms: this.uniforms,
+            attributes: this.attributes,
+            vertexShader: vsnormal,
+            fragmentShader: fsnormal,
+            wireframe: this.config.wireframe
+        });
+
+
         this.object = new THREE.Mesh(this.geometry, this.material);
 
-        // Shadow options
-        this.object.castShadow = true;
-        this.object.receiveShadow = true;
+        //Get attributes
+        var values = this.attributes.displacement.value;
+        var ox = this.attributes.ox.value;
+        var oy = this.attributes.oy.value;
+        var oz = this.attributes.oz.value;
 
         // Store vertices positions
-        var ballVertices = this.object.geometry.vertices;
-        var vertex;
-        for(var i = 0, len = this.object.geometry.vertices.length; i < len; i++) {
-            vertex = this.object.geometry.vertices[i];
-            vertex.ox = vertex.x;
-            vertex.oy = vertex.y;
-            vertex.oz = vertex.z;
+        var vertices = this.object.geometry.vertices;
+        for(var i = 0, len = vertices.length; i < len; i++) {
+            values.push(i);
+            ox.push(vertices[i].x);
+            oy.push(vertices[i].y);
+            oz.push(vertices[i].z);
         }
 
-        // Randomize the position
-        this.object.position.x = 0; //Math.floor(Math.random() * 500) + -250;
-        this.object.position.y = 100; //Math.floor(Math.random() * 500) + -250;
-        this.object.position.z = 0; //Math.floor(Math.random() * 700) + -350;
-
-
-        // Apply this color
-        this.object.material.ambient.r = this.object.material.color.r = this.config.color[0] / 255;
-        this.object.material.ambient.g = this.object.material.color.g = this.config.color[1] / 255;
-        this.object.material.ambient.b = this.object.material.color.b = this.config.color[2] / 255;
+        this.uniforms.len.value = vertices.length;
     };
 
     this.initBoid = function() {
         this.boid = new Boid();
-        this.boid.init(this.group, 0, 0);
+        this.boid.init(this.group, Math.floor(Math.random() + 200), Math.floor(Math.random() + 200));
     };
 
     // Animate the blob shape
     this.animate = function() {
-        var vertex;
-        var scale;
-
-        // Get the config vars
-        t += this.config.speed1;
-        bt += this.config.speed2;
-        var level = this.config.level;
-        var multiplyRatio = this.config.multiplyRatio;
-        var var1 = this.config.var1;
-        var var2 = this.config.var2;
-
-        // Reposition the vertices
-        for(var i = 0, len = this.object.geometry.vertices.length; i < len; i++) {
-            vertex = this.object.geometry.vertices[i];
-            scale = Math.sin(t + i * ((1 + i)/(1 + i * var2)) * var1/40) * Math.sin(bt + i/ len) * level;
-            vertex.x = vertex.ox + vertex.ox * scale;
-            vertex.y = vertex.oy + vertex.oy * scale;
-            vertex.z = vertex.oz + vertex.oz * scale;
-        }
-
-        // Set the vertices for updating
-        this.object.geometry.verticesNeedUpdate = true;
-        this.object.geometry.normalsNeedUpdate = true;
+        // Time based
+        this.uniforms.t.value += this.config.speed1;
+        this.uniforms.bt.value += this.config.speed2;
     };
 
     this.update = function(boids) {
@@ -82,11 +68,10 @@ module.exports = function(config, group) {
         var position = this.boid.run(boids);
         this.reposition(position.x, position.y);
 
-        this.x = 0;
-        this.y = 0;
 
-        this.x = position.x;
-        this.y = position.y;
+        this.x = position.x - window.vrRegionX;
+        this.y = position.y - window.vrRegionY;
+
         this.reposition();
     };
 
@@ -95,6 +80,7 @@ module.exports = function(config, group) {
         this.object.position.x = this.x;
         this.object.position.y = this.y;
     };
+
 
     // Return a random config
     function randomConfig() {
@@ -117,7 +103,7 @@ module.exports = function(config, group) {
         tempconfig.speed2 = Math.random() * .2;
 
         return tempconfig;
-    };
+    }
 
     this.init();
 }

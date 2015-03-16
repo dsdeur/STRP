@@ -7,7 +7,7 @@ module.exports = function(element) {
 
 
     //Mapping properties
-    this.skew = -500;
+    this.skew = 0;
 
     this.positions = [
         //Links boven | Rechts boven |  Links onder |   Rechts onder
@@ -23,7 +23,7 @@ module.exports = function(element) {
     this.rtMaterial1;
     this.rtMaterial2;
     this.rtGeometry = [];
-        
+
     this.output1;
     this.output2;
     this.sceneRTT = new THREE.Scene();
@@ -35,7 +35,10 @@ module.exports = function(element) {
         // Create the objects
         this.scene = new THREE.Scene();
         this.camera = new THREE.OrthographicCamera(window.innerWidth / - 2, window.innerWidth / 2,window.innerHeight / 2,window.innerHeight / -2, -1000, 10000);
-        this.renderer = new THREE.WebGLRenderer();
+        this.renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            alpha: true
+        });
 
         //Mapping cameras 1 camera per beamer
         this.cameraRTT1 = new THREE.OrthographicCamera( window.innerWidth / - 2, this.skew, window.innerHeight / 2, window.innerHeight / - 2, -10000, 10000 );
@@ -60,13 +63,13 @@ module.exports = function(element) {
             this.rtGeometry[x].verticesNeedUpdate = true;
         }
 
-        
+
         this.rtMaterial1 = new THREE.MeshBasicMaterial( { color: 0xffffff,map:this.rtTexture1} );
         this.rtMaterial2 = new THREE.MeshBasicMaterial( { color: 0xffffff,map:this.rtTexture2} );
 
         this.output1 = new THREE.Mesh( this.rtGeometry[0], this.rtMaterial1 );
         this.output2 = new THREE.Mesh( this.rtGeometry[1], this.rtMaterial2 );
-    
+
         this.sceneRTT.add( this.output1 );
         this.sceneRTT.add( this.output2 );
 
@@ -95,7 +98,6 @@ module.exports = function(element) {
         this.light.shadowCameraFar = 3500;
 
         // Set camera position
-        this.camera.position.y = 0;
         this.camera.position.z = this.z;
 
         // Add lights to the scene
@@ -125,10 +127,10 @@ module.exports = function(element) {
 
     // Render the scene
     this.render = function() {
-        self.renderer.setClearColor(new THREE.Color().setRGB( 1, 1, 1 ));
+        //self.renderer.setClearColor(new THREE.Color().setRGB( 0, 0, 1 ));
         self.renderer.render( self.scene, self.cameraRTT1, self.rtTexture1, true );
 
-        self.renderer.setClearColor(new THREE.Color().setRGB( 0.5, 0.9, 0.4 ));     
+        //self.renderer.setClearColor(new THREE.Color().setRGB( 0.5, 0.9, 0.4 ));
         self.renderer.render( self.scene, self.cameraRTT2, self.rtTexture2, true );
 
         self.renderer.render(self.sceneRTT, self.camera);
