@@ -27,6 +27,10 @@ var paths = {
     html: {
         src: './src/*.html',
         dest: './build/'
+    },
+    audio: {
+        src: './src/sound/*.mp3',
+        dest: './build/sound'
     }
 };
 
@@ -45,6 +49,12 @@ gulp.task('images', function() {
 gulp.task('html', function() {
     return gulp.src(paths.html.src)
         .pipe(gulp.dest(paths.html.dest));
+});
+
+// Process html files
+gulp.task('audio', function() {
+    return gulp.src(paths.audio.src)
+        .pipe(gulp.dest(paths.audio.dest));
 });
 
 // Build the javascript
@@ -97,6 +107,6 @@ gulp.task('watcher', function() {
 });
 
 // Create tasks
-gulp.task('build', ['css', 'build-js', 'images', 'html']);
+gulp.task('build', ['css', 'build-js', 'images', 'html', 'audio']);
 gulp.task('default', ['serve', 'watch']);
 gulp.task('watch', ['build', 'watcher']);
