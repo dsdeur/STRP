@@ -10,7 +10,10 @@ module.exports = function(element) {
         // Create the objects
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 1, 10000);
-        this.renderer = new THREE.WebGLRenderer({ antialias: true });
+        this.renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            alpha: true
+        });
 
         // Append the scene to the body
         this.renderer.shadowMapEnabled = true;
