@@ -23,23 +23,28 @@ module.exports = function(config, group) {
         this.attributes = new TransformAttributes();
     	this.uniforms = new TransformUniforms(config);
 
-        // if(this.config.wireframe) {
-        //     this.material = new THREE.ShaderMaterial({
-        //         uniforms: this.uniforms,
-        //         attributes: this.attributes,
-        //         vertexShader: vswireframe,
-        //         fragmentShader: fswireframe,
-        //     });
-        //
-        // } else {
+        var attributesMixed = { center: { type: 'v3', boundTo: 'faceVertices', value: [] } };
+        var valuesMixed = attributesMixed.center.value;
+
+
+        if(this.config.wireframe) {
+            this.material = new THREE.ShaderMaterial({
+                uniforms: {},
+                attributes: attributesMixed,
+                vertexShader: vswireframe,
+                fragmentShader: fswireframe
+            });
+
+        } else {
             this.material = new THREE.ShaderMaterial({
                 uniforms: this.uniforms,
                 attributes: this.attributes,
                 vertexShader: vsnormal,
-                fragmentShader: fsnormal,
+                fragmentShader: fsnormal
             });
-        //}
-        //this.material = new THREE.MeshPhongMaterial({ambient: 0xff0000, color: 0xff0000, wireframe: config.wireframe})
+        }
+
+        setupAttributes(this.geometry, valuesMixed);
 
         this.object = new THREE.Mesh(this.geometry, this.material);
 
@@ -52,7 +57,7 @@ module.exports = function(config, group) {
         // Store vertices positions
         var vertices = this.object.geometry.vertices;
         for(var i = 0, len = vertices.length; i < len; i++) {
-            values.push(i)
+            values.push(i);
             ox.push(vertices[i].x);
             oy.push(vertices[i].y);
             oz.push(vertices[i].z);
@@ -91,6 +96,12 @@ module.exports = function(config, group) {
         this.object.position.y = this.y;
     };
 
+    function setupAttributes(geometry, values) {
+        for(var f = 0; f < geometry.faces.length; f++) {
+            values[f] = [new THREE.Vector3( 1, 0, 0 ), new THREE.Vector3( 0, 1, 0 ), new THREE.Vector3( 0, 0, 1 )];
+        }
+    }
+
     // Return a random config
     function randomConfig() {
         var tempconfig = {
@@ -112,7 +123,7 @@ module.exports = function(config, group) {
         tempconfig.speed2 = Math.random() * .2;
 
         return tempconfig;
-    };
+    }
 
     this.init();
 }
