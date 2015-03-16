@@ -19,7 +19,7 @@ document.body.appendChild( stats.domElement );
 module.exports = function(scene) {
     var self = this;
     this.scene = scene;
-    this.flocks = {};
+    this.flock = new Flock();
 
     this.socket = new Socket("ws://127.0.0.1:8520", {
         'new_data': this.newData
@@ -32,31 +32,25 @@ module.exports = function(scene) {
         // Adjust groups
     };
 
-    this.newFlock = function(group) {
-        var flock = new Flock();
-        this.flocks[group] = flock;
-    }
+    // this.newFlock = function(group) {
+    //     var flock = new Flock();
+    //     this.flocks[group] = flock;
+    // }
 
     this.newBlob = function(data, group) {
         var config = Converter.getConfig(data);
         var blob = new Blob(config, group);
 
-        if(!this.flocks.hasOwnProperty(group)) {
-            this.newFlock(group);
-        }
-
-        this.flocks[group].addBoid(blob);
+        this.flock.addBoid(blob);
         this.scene.add(blob.object);
     };
 
     this.render = function() {
         stats.begin();
 
-        for (var key in self.flocks) {
-            if (self.flocks.hasOwnProperty(key)) {
-                self.flocks[key].run();
-            }
-        }
+        self.flock.run();
+
+        stats.end();
 
         stats.end();
 
