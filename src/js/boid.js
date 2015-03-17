@@ -2,7 +2,7 @@ module.exports = function() {
 	this.x = 0;
 	this.y = 0;
 	this.orientation = 360;
-	this.velocity = 0.5;
+	this.velocity = 1;
 	this.forceX = 0;
 	this.forceY = 0;
 	this.group = 1;
@@ -18,12 +18,10 @@ module.exports = function() {
 		this.resetBoid();
 		this.separate(boids);
 		this.align(boids);
-		//this.cohesion(boids);
+		this.cohesion(boids);
 		this.avoid(boids);
  		this.update();
 		this.borders();
-
-		//console.log(this.orientation);
 
 		return {
 			x: this.x,
@@ -103,7 +101,7 @@ module.exports = function() {
 			ratio;
 
 		for(var i = 0; i < boids.length; i++){
-			if(this.group == boids[i].boid.group){
+			//if(this.group == boids[i].boid.group){
 				ratio = this.collision(this.x, this.y, boids[i].boid.x, boids[i].boid.y, desiredSeparation);
 				if(ratio != false){
 					if(ratio.distance < desiredSeparation * 2){
@@ -114,7 +112,7 @@ module.exports = function() {
 						}
 					}
 				}
-			}
+			//}
 		}
 
 		if(nearestNeighbour != false){
@@ -159,14 +157,14 @@ module.exports = function() {
 			this.orientation += 1.3;
 		}
 
-		//this.orientation = averageAlignment;
+		this.orientation = averageAlignment;
 
 		this.preventFail();
 	}
 
 	this.cohesion = function(boids) {
 		var desiredCohesion = 20,
-			cohesionSpeed = 0.5,
+			cohesionSpeed = 4.5,
 			forceX,
 			forceY,
 			nearestNeighbour = false,
@@ -205,7 +203,7 @@ module.exports = function() {
 	}
 
 	this.avoid = function(boids){
-		var neighbourDistance = 10;
+		var neighbourDistance = 20;
 		for(var i = 0; i < boids.length; i++){
 			if(this.group != boids[i].boid.group){
 

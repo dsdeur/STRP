@@ -46,8 +46,7 @@ for(var i = 0; i < 20; i++) {
 		Math.floor(Math.random() * 254),
 		Math.floor(Math.random() * 254)
 	];
-
-	for(var x = 0; x < 10; x++) {
+	for(var x = 0; x < 13; x++) {
 		nebula.newBlob(randomData(color), i);
 	}
 }
