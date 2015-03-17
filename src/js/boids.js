@@ -122,10 +122,10 @@ Boid = function(id) {
 
 	this.run = function(boids) {
 		this.resetBoid();
-		this.separate(boids);
-		this.align(boids);
-		this.cohesion(boids);
-		this.avoid(boids);
+		//this.separate(boids);
+		//this.align(boids);
+		//this.cohesion(boids);
+		//this.avoid(boids);
 		this.update();
 		this.borders();
 		this.render(boids);
