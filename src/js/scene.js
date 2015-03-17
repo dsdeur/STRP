@@ -83,26 +83,26 @@ module.exports = function(element) {
         this.renderer.autoClear = false;
         this.element.appendChild(this.renderer.domElement);
 
-        // Let there be light
-        this.ambient = new THREE.AmbientLight(0x999999);
-        this.light = new THREE.DirectionalLight(0x999999);
-
-        // Light settings
-        this.light.castShadow = true;
-        this.light.shadowMapWidth = 2048;
-        this.light.shadowMapHeight = 2048;
-        this.light.shadowCameraLeft = -500;
-        this.light.shadowCameraRight = 500;
-        this.light.shadowCameraTop = 500;
-        this.light.shadowCameraBottom = -500;
-        this.light.shadowCameraFar = 3500;
+        // // Let there be light
+        // this.ambient = new THREE.AmbientLight(0x999999);
+        // this.light = new THREE.DirectionalLight(0x999999);
+        //
+        // // Light settings
+        // this.light.castShadow = true;
+        // this.light.shadowMapWidth = 2048;
+        // this.light.shadowMapHeight = 2048;
+        // this.light.shadowCameraLeft = -500;
+        // this.light.shadowCameraRight = 500;
+        // this.light.shadowCameraTop = 500;
+        // this.light.shadowCameraBottom = -500;
+        // this.light.shadowCameraFar = 3500;
 
         // Set camera position
         this.camera.position.z = this.z;
 
         // Add lights to the scene
-        this.scene.add(this.ambient);
-        this.scene.add(this.light);
+        // this.scene.add(this.ambient);
+        // this.scene.add(this.light);
 
     };
 
