@@ -51,14 +51,14 @@ module.exports = function(element) {
         this.rtTexture2 = new THREE.WebGLRenderTarget( window.innerWidth * 2, window.innerHeight * 2, { minFilter: THREE.LinearFilter, magFilter: THREE.NearestFilter, format: THREE.RGBFormat } );
 
 
-        this.rtGeometry[0] = new THREE.PlaneGeometry(window.innerWidth / 2,window.innerHeight);
-        this.rtGeometry[1] = new THREE.PlaneGeometry(window.innerWidth / 2,window.innerHeight);
+        this.rtGeometry[0] = new THREE.PlaneBufferGeometry(window.innerWidth / 2,window.innerHeight);
+        this.rtGeometry[1] = new THREE.PlaneBufferGeometry(window.innerWidth / 2,window.innerHeight);
 
 
         for(var x = 0; x < this.rtGeometry.length; x++){
-            for(var i = 0; i < this.rtGeometry[x].vertices.length; i++) {
-                this.rtGeometry[x].vertices[i].x = this.positions[x][i].x * (window.innerWidth / 4);
-                this.rtGeometry[x].vertices[i].y = this.positions[x][i].y * (window.innerHeight / 2);
+            for(var i = 0; i < this.rtGeometry[x].attributes.position; i++) {
+                this.rtGeometry[x].attributes.position[i].x = this.positions[x][i].x * (window.innerWidth / 4);
+                this.rtGeometry[x].attributes.position[i].y = this.positions[x][i].y * (window.innerHeight / 2);
             }
             this.rtGeometry[x].verticesNeedUpdate = true;
         }
@@ -100,10 +100,22 @@ module.exports = function(element) {
         // Set camera position
         this.camera.position.z = this.z;
 
-        // Add lights to the scene
+        // // Add lights to the scene
         // this.scene.add(this.ambient);
         // this.scene.add(this.light);
 
+        this.bgMesh = new THREE.Mesh(
+          new THREE.PlaneBufferGeometry(window.innerWidth,window.innerHeight),
+          new THREE.MeshBasicMaterial({
+              map: THREE.ImageUtils.loadTexture('../img/background.jpg')
+          })
+        );
+
+        // The bg plane shouldn't care about the z-buffer.
+        this.bgMesh.material.depthTest = false;
+        this.bgMesh.material.depthWrite = false;
+
+        this.scene.add(this.bgMesh);
     };
 
     // Resize the canvas
@@ -127,6 +139,7 @@ module.exports = function(element) {
 
     // Render the scene
     this.render = function() {
+
         //self.renderer.setClearColor(new THREE.Color().setRGB( 0, 0, 1 ));
         self.renderer.render( self.scene, self.cameraRTT1, self.rtTexture1, true );
 
