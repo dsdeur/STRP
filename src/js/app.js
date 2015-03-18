@@ -2,103 +2,61 @@ var THREE = require('three');
 var Scene = require('./scene.js');
 var Nebula = require('./nebula.js');
 
-var data = {
-	color: [ 57, 245, 192 ],
-    klassiekModern: false,
-    volgendLeidend:  false,
-    natuurFuturistisch: true,
-    creatiefLogisch: false,
-    introvertExtravert: true,
-    rustigDruk: false,
-    chaotischGestructureerd: true,
-    hartslag: 60
-};
 
+// Init the scene
+var scene = new Scene(document.body);
+scene.resize(window.innerWidth, window.innerHeight);
+scene.render();
+
+// Resize canvas on window resizes
+window.onresize = function() {
+    scene.resize(window.innerWidth, window.innerHeight);
+}
+
+// Create the nebula! :O
+var nebula = new Nebula(scene);
+nebula.render();
+
+
+
+// CODE FOR TESTING PURPOSES ---------------------------------------
 function randomData(color) {
 	var data = {
-		color:color,
-		klassiekModern: Math.random() < 0.5 ? true : false,
-		volgendLeidend:  Math.random() < 0.5 ? true : false,
-		natuurFuturistisch: Math.random() < 0.5 ? true : false,
-		creatiefLogisch: Math.random() < 0.5 ? true : false,
-		introvertExtravert: Math.random() < 0.5 ? true : false,
-		rustigDruk: Math.random() < 0.5 ? true : false,
-		chaotischGestructureerd:  Math.random() < 0.5 ? true : false,
-		hartslag: Math.floor(Math.random() * 100) + 50
+		c1: color,
+		hb: 66,
+		var1: Math.random() < 0.5 ? true : false,
+		var2: Math.random() < 0.5 ? true : false,
+		var3: Math.random() < 0.5 ? true : false,
+		var4: Math.random() < 0.5 ? true : false,
+		var5: Math.random() < 0.5 ? true : false,
+		var6: Math.random() < 0.5 ? true : false,
+		var7: Math.random() < 0.5 ? true : false
 	};
 
 	return data;
 }
 
-var color =  [
-	Math.floor(Math.random() * 254),
-	Math.floor(Math.random() * 254),
-	Math.floor(Math.random() * 254)
-];
-
-var sampleInput ={
-    "timestamp": 1,
-	"userId": 2,
-    "nodes": [
-        {
-            "userId": 1,
-            "input_data": randomData(color),
-            "cluster": 3,
-            "position": [3, 4]
-        },
-        {
-            "userId": 2,
-            "input_data": randomData(color),
-            "cluster": 6,
-            "position": [16, 3]
-        }
-    ],
-    "clusters": [
-        {
-            "1": [20, 24],
-            "2": [14, 7]
-        }
-    ]
-
-};
-
-var scene = new Scene(document.body);
-scene.resize(window.innerWidth, window.innerHeight);
-scene.render();
-
-window.onresize = function() {
-    scene.resize(window.innerWidth, window.innerHeight);
+function getRandomHexColor() {
+	return '0123456789abcdef'.split('').map(function(v,i,a){
+  		return i>5 ? null : a[Math.floor(Math.random()*16)]
+	}).join('');
 }
 
-var nebula = new Nebula(scene);
+// Add random blobs
 for(var i = 0; i < 0; i++) {
-	var color =  [
-		Math.floor(Math.random() * 254),
-		Math.floor(Math.random() * 254),
-		Math.floor(Math.random() * 254)
-	];
+	var color = getRandomHexColor();
+
 	for(var x = 0; x < 10; x++) {
 		nebula.newBlob(randomData(color), i);
 	}
 }
 
-
-nebula.render();
-
-
+// Get buttons
 var newBlobButton = document.getElementById('newBlob');
 var deleteBlobButton = document.getElementById('deleteBlob');
-var blobId = document.getElementById('blobId');
 
-console.log(newBlobButton, deleteBlobButton, blobId);
-
+// Add new blob on button click
 newBlobButton.addEventListener('click', function() {
-	// var color =  [
-	// 	Math.floor(Math.random() * 254),
-	// 	Math.floor(Math.random() * 254),
-	// 	Math.floor(Math.random() * 254)
-	// ];
-	// nebula.newBlob(randomData(color), 0);
-
-	nebula.handleInput(sampleInput);
+	var color = getRandomHexColor();
+	nebula.newBlob(randomData(color), Math.floor(Math.random() + 10));
 });
