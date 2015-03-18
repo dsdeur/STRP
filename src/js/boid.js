@@ -1,3 +1,5 @@
+// made by Jodie Lo
+
 module.exports = function() {
 	this.x = 0;
 	this.y = 0;
@@ -286,3 +288,5 @@ Math.radians = function(degrees) {
 Math.degrees = function(radians) {
   return radians * 180 / Math.PI;
 };
+
+// and Robbert fixed some shit too

@@ -1,5 +1,3 @@
-//var height =
-
 // made by Jodie Lo
 
 module.exports = function() {
@@ -21,7 +19,5 @@ module.exports = function() {
 		//
 	}
 }
-
-
 
 // and Robbert fixed some shit too
