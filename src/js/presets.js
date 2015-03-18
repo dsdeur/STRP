@@ -60,12 +60,12 @@ module.exports.matchPresets = function(data) {
 		{
 			klassiekModern: false,
 			natuurFuturistisch: true,
-			creatiefLogisch: false
+			creatiefLogisch: true
 		},
 		{
 			volgendLeidend: false,
 			natuurFuturistisch: false,
-			creatiefLogisch: true,
+			creatiefLogisch: false,
 			introvertExtravert: false,
 			rustigDruk: false
 		},

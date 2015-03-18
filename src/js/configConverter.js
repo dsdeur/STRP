@@ -1,7 +1,19 @@
 var THREE = require('three');
 var Presets = require('./presets.js');
 
-module.exports.getConfig = function(data) {
+module.exports.getConfig = function(inputdata) {
+		var data = {
+			klassiekModern: inputdata.var3,
+			volgendLeidend:  inputdata.var2,
+			natuurFuturistisch: inputdata.var7,
+			creatiefLogisch: inputdata.var5,
+			introvertExtravert: inputdata.var4,
+			rustigDruk: inputdata.var6,
+			chaotischGestructureerd: inputdata.var1,
+			hartslag: inputdata.hb,
+			color: inputdata.c1
+		}
+
 		// console.log(config);
 		//Start a clean config object and overwrite below
 		var config = {
@@ -33,7 +45,7 @@ module.exports.getConfig = function(data) {
 		//Testen > anders durge zijn schuld anders > baas
 		data.hartslag = Math.min(Math.max(data.hartslag, 50), 140) - 50;
 		config.speed2 = (0.2 * data.hartslag ) / 90;
-		
+
 		if (data.introvertExtravert = true){
 			config.level = 0.7;
 		}else {
@@ -54,7 +66,7 @@ module.exports.getConfig = function(data) {
 
 		var vars = Presets.matchPresets(data);
 // 		console.log(vars);
-		
+
 		config.var1 = vars.var1;
 		config.var2 = vars.var2;
 
