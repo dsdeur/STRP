@@ -1,0 +1,636 @@
+/* ==========================================================================
+   body
+   ========================================================================== */
+
+body {
+	position: relative;
+	min-width: 960px;
+	height: 100%;
+    color: #fff;
+	font-size: 14px;
+	line-height: 1.42857;
+    font-family: 'baron';	
+	background-image: url(../images/achtergrond.jpg);
+	background-position: center center;
+	background-attachment: fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	background-size: cover;
+	-o-background-size: cover;
+	overflow: hidden;
+	
+	
+}
+
+body > * {
+-webkit-touch-callout:none;
+-webkit-user-select:none;
+-khtml-user-select:none;
+-moz-user-select:none;
+-ms-user-select:none;
+user-select:none;
+cursor:none !important;
+}
+
+@font-face {
+    font-family: 'baron';
+    src: url('../fonts/Baron Neue-webfont.eot');
+    src: url('../fonts/Baron Neue-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/Baron Neue-webfont.woff2') format('woff2'),
+         url('../fonts/Baron Neue-webfont.woff') format('woff'),
+         url('../fonts/Baron Neue-webfont.ttf') format('truetype'),
+         url('../fonts/Baron Neue-webfont.svg#baron_neueregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('../fonts/OpenSans-Light-webfont.eot');
+    src: url('../fonts/OpenSans-Light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/OpenSans-Light-webfont.woff2') format('woff2'),
+         url('../fonts/OpenSans-Light-webfont.woff') format('woff'),
+         url('../fonts/OpenSans-Light-webfont.ttf') format('truetype'),
+         url('../fonts/OpenSans-Light-webfont.svg#open_sanslight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+/* ==========================================================================
+   base
+   ========================================================================== */
+
+html, 
+body { height: 100%; }
+
+/* global
+   ========================================================================== */
+   
+/* links */
+a {
+	color: #0088cc; 
+	text-decoration: none;
+	transition: all 0.3s ease;
+}
+a:hover { color: #005580;}
+a:focus { outline: none;}
+
+/* headlines */
+h1, 
+h2, 
+h3, 
+h4, 
+h5, 
+h6 {
+	color: #fff; 
+	font-weight: normal; 
+	line-height: 1.5; 
+	margin: 0;
+}
+
+/* text */
+p { margin-top: 0;}
+
+/* breaks */
+hr { height: 0; border: 0; border-top: 1px solid #ccc;}
+
+*, *:before, *:after {
+	-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+
+#hb {
+  font-size: 30px;
+  margin-top: 35px;
+}
+
+/* ==========================================================================
+   container
+   ========================================================================== */
+
+.container {
+	position: relative;
+	width: 940px;
+	margin-right: auto;
+	margin-left: auto;
+}
+.container:before, .container:after { display: table; content: "";}
+.container:after { clear: both;}
+
+/* row */
+.row { margin-left: -20px;}
+.row:before, .row:after { display: table; content: "";}
+.row:after { clear: both;}
+
+/* clear */
+.clear:before, .clear:after { display: table; content: "";}
+.clear:after { clear: both;}
+
+
+/* ==========================================================================
+   screen
+   ========================================================================== */
+
+.full {
+	position: relative;
+	min-height: 1920px;
+	width: 1080px;
+	margin: 0 auto;	
+}
+
+.caption {
+	position: relative;
+	z-index: 100;
+	display: table;
+	margin: 0 auto;
+	
+	text-align: center;	
+}
+.caption h2 {
+	margin-bottom: 25px;
+	font-size: 50px;
+	color: #fff;
+}
+.caption p {
+	margin-bottom: 25px;
+	font-size: 28px;
+	font-weight: lighter;
+	
+    font-family: 'Open Sans', sans-serif;
+	color: #fff;
+}
+
+/* ==========================================================================
+   screen-start
+   ========================================================================== */
+
+.screen-start {
+}
+
+/* Caption */
+.screen-start .caption {
+	position: absolute;
+	top: 50%;
+	width: 100%;
+	margin-top: -250px;
+	padding: 50px 0;
+}
+.screen-start .caption h1 {
+	margin-bottom: 75px;
+	font-size: 72px;
+	color: #fff;
+}
+.screen-start .caption p {
+	margin-bottom: 75px;
+	font-size: 28px;
+	font-weight: lighter;
+	color: #fff;
+}
+.screen-start .caption .btn {
+	font-size: 36px;
+}
+
+/* ==========================================================================
+   screen-choice
+   ========================================================================== */
+   
+.screen-choice {
+	position: relative;
+	width: 100%;
+}
+
+/* Main */
+.screen-choice .main {
+	position: absolute;
+	z-index: 0;
+	width: 100%;
+	height: 100%;
+}
+.screen-choice .main .caption { margin-top: 250px; }
+
+.screen-choice .main .sensor-data {
+	position: absolute;
+	top: 650px;
+	left: 50%;
+	margin-left: -300px;
+	width: 600px;
+	
+	opacity: 0;
+	text-align: center;
+}
+
+.screen-choice .main .sensor-data .colors { padding-top: 30px; } 
+.screen-choice .main .sensor-data .colors .row {
+	display: table;
+	margin: 35px auto;
+}
+.screen-choice .main .sensor-data .colors .row .color {
+	width: 50px;
+	height: 50px;
+	float: left;
+	margin: 0 10px;
+	border-radius: 50%;
+	border: 5px solid #fff;
+	background-color: red;
+}
+
+.screen-choice .main .sensor-data .hartje{
+	width: 150px;
+	height: 200px;
+	
+ 	background-image: url(../images/hartjebons.gif);
+	background-size: 100% auto;
+	background-repeat: no-repeat;
+	background-position: center center;
+	margin: 0 auto;
+}
+
+/* Visual */
+.screen-choice .main .visual {
+	position: absolute;
+	left: 50%;
+	margin-left: -250px;
+	bottom: 200px;
+}
+.screen-choice .main .visual canvas {
+	position: relative;
+	width: 500px !important;
+	height: auto !important;
+	margin: 0 auto;
+}
+
+/* Progress */
+.screen-choice .main .progress {
+	position: absolute;
+	bottom: 200px;
+	z-index: 0;	
+	width: 100%;
+}
+.screen-choice .main .progress .caption h2 {
+	font-size: 28px;
+	font-weight: lighter;
+}
+.screen-choice .main .progress ul {
+	position: relative;
+	display: table;
+	margin: 0 auto;
+	padding: 0;
+	list-style: none;
+}
+.screen-choice .main .progress ul > li {
+	float: left;
+	width: 40px;
+	height: 40px;
+	padding: 10px;
+	margin: 0 5px;
+	border-radius: 50%;
+	background-color: rgba(204,204,204,0.3);
+	
+	-webkit-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.25);
+	-moz-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.25);
+	box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.25);
+}
+.screen-choice .main .progress ul > li > a {
+	display: none;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background-color: #000;
+}
+.screen-choice .main .progress ul > li.active > a {
+	display: inline-block;
+	background-color: #fff;
+}
+
+/* Sub */
+.screen-choice .sub {
+	position: absolute;
+	z-index: 1;
+	width: 400px;
+	height: 100%;
+}
+.screen-choice .sub.left { left: 50px; }
+.screen-choice .sub.right { right: 50px; }
+
+.screen-choice .sub .flex-viewport { height: 100% !important; }
+
+.screen-choice .sub .slides {
+}
+.screen-choice .sub .slides > li {
+	position: relative;
+	max-height: 100%;
+	width: 400px;
+}
+.screen-choice .sub .slides > li .image {
+	position: absolute;
+	top: 500px;
+	left: 50%;
+	margin-left: -185px;
+	height: 370px;
+	width: 370px;
+	
+	border: 3px solid #fff;
+	border-radius: 50%;
+	
+	background-size: auto 102%;
+	background-position: center center;
+	background-repeat: no-repeat;	
+	-webkit-box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.25);
+	-moz-box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.25);
+	box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.25);
+}
+.screen-choice .sub .slides > li .image:hover {  }
+
+.img1a{
+	background-image: url(../images/1a.png);
+}
+.img1b{
+	background-image: url(../images/1b.png);
+}
+.img2a{
+	background-image: url(../images/2a.png);
+}
+.img2b{
+	background-image: url(../images/2b.png);
+}
+.img3a{
+	background-image: url(../images/3a.png);
+}
+.img3b{
+	background-image: url(../images/3b.png);
+}
+.img4a{
+	background-image: url(../images/4a.png);
+}
+.img4b{
+	background-image: url(../images/4b.png);
+}
+.img5a{
+	background-image: url(../images/5a.png);
+}
+.img5b{
+	background-image: url(../images/5b.png);
+}
+.img6a{
+	background-image: url(../images/6a.png);
+}
+.img6b{
+	background-image: url(../images/6b.png);
+}
+.img7a{
+	background-image: url(../images/7a.png);
+}
+.img7b{
+	background-image: url(../images/7b.png);
+}
+
+.screen-launch .caption {
+	position: absolute;
+	width: 100%;
+	top: 250px;
+	text-align: center;
+}
+.screen-launch .caption.last {
+	position: absolute;
+	width: 100%;
+	top: inherit;
+	bottom: 250px;
+	text-align: center;
+}
+
+.screen-launch .button {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -250px;
+	margin-left: -250px;
+	width: 500px;
+	height: 500px;
+	background-image: url(../images/launchbutton.png);
+	border-radius: 50%;
+	background-size: auto 100%;
+	background-position: center center;
+	background-repeat: no-repeat;	
+	-webkit-box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.25);
+	-moz-box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.25);
+	box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.25);
+}
+
+.screen-launch .countdown{
+	text-align: center;
+	height: 100%;
+	width: 100%;
+	font-size: 138px;
+}
+.screen-launch .countdown h1 { line-height: 500px; }
+.screen-launch .countdown #timer img {
+	margin-top: 100px;
+	width: 300px;
+	height: 300px;
+}
+
+/* ==========================================================================
+   screen-reset
+   ==========================================================================  */
+   
+.screen-reset {	
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: -1;
+	opacity: 0;
+	
+	min-height: 100%;
+	width: 100%;
+	
+	background-color: #000;
+	transition: all 1s ease;
+}
+.screen-reset .caption {
+	position: absolute;
+	top: 50%;
+	width: 100%;
+	margin-top: -250px;
+	padding: 50px 0;
+}
+
+/* ==========================================================================
+   logo
+   ==========================================================================  */
+   
+.Nebula-logo {
+	width: 300px;
+	height: 200px;
+	background-image: url(../images/logonebula2.png);
+	background-size: 100% auto;
+	background-repeat: no-repeat;
+	background-position: center center;
+	margin: 0 auto;
+
+}
+
+.Fontys-logo{
+  position: fixed;
+  float: left;
+  bottom: 25px;
+  right: 543px;
+  z-index: 500;
+  width: 233px;
+  height: 100px;
+  background-image: url(../images/fontyslogo.png);
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+
+.GHG-logo {
+  position: fixed;
+  float: left;
+  bottom: 25px;
+  right: 25px;
+  z-index: 500;
+  width: 278px;
+  height: 100px;
+  background-image: url(../images/greenhousegroup.png);
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.BEAN-logo {
+	position: fixed;
+	bottom: 25px;
+	left: 25px;
+	z-index: 500;
+	width: 300px;
+	height: 100px;
+	
+	background-image: url(../images/logobean.png);
+	background-size: 100% auto;
+	background-repeat: no-repeat;
+	background-position: center center;	
+}
+
+.partners {
+  position: fixed;
+  bottom: 25px;
+  padding-left: 200px;
+}
+.logo .ghg{
+	  margin-top: 15px;
+	}
+
+.logo{
+	float: left;
+	  margin-left: 60px;
+	}
+
+.logo img{
+	width: 145px;
+}
+
+
+/* ==========================================================================
+   content
+   ========================================================================== */
+
+/* content headlines */
+.content h1 { font-size: 24px; margin-bottom: 20px;}
+.content h2 { font-size: 20px; margin-bottom: 14px;}
+.content h3 { font-size: 16px; margin-bottom: 5px;}
+
+/* content images */
+.content img, .content iframe { border: none;}
+.content img { max-width: 100%; height: auto;}
+
+
+/* ==========================================================================
+   images
+   ========================================================================== */
+
+.image img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+.img-responsive {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+.img-rounded { border-radius: 6px;}
+.img-circle { border-radius: 50%;}
+.img-thumbnail {
+    padding: 4px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+}
+
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.btn {
+	display: inline-block;
+	padding: 30px 100px;
+	
+	color: #fff;
+	line-height: 20px;
+	text-align: center;
+	vertical-align: middle;
+	border: 3px solid #fff;
+	
+	transition: background 0.3s ease;
+}
+.btn:hover {
+	color: #fff;
+	background-color: rgba(255,255,255,0.1);
+}
+
+.btn-block {
+	display: block;
+	width: 100%;
+	padding-left: 0;
+	padding-right: 0;
+}
+
+/* Size */
+.btn-large {}
+.btn-small {}
+.btn-mini {}
+
+
+/* ==========================================================================
+   FlexSlider
+   ========================================================================== */
+
+.slides, 
+.flex-control-nav, 
+.flex-direction-nav {
+	margin: 0; 
+	padding: 0; 
+	list-style: none;
+}
+.slides > li {
+	display: none; 
+	-webkit-backface-visibility: hidden;
+} /* Hide the slides before the JS is loaded. Avoids image jumping */
+.slides img {
+	width: 100%; 
+	display: block;
+}
+.flex-pauseplay span { text-transform: capitalize; }
+
+/* Clearfix for the .slides element */
+.slides:after {
+	content: "."; 
+	display: block; 
+	clear: both; 
+	visibility: hidden; 
+	line-height: 0; 
+	height: 0;} 
+html[xmlns] .slides { display: block; } 
+* html .slides { height: 1%; }

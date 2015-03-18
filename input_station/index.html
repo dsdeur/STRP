@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="nl">
+	<head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <title>BEAN | NEBULA</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+		<!-- stylesheetsfixed -->
+        <link rel="stylesheet" href="css/normalize.css">
+        <!-- /stylesheets costum -->
+
+        <!-- stylesheets costum -->
+        <link rel="stylesheet" href="css/style.css">
+		<!-- /stylesheets costum -->
+       <script src="js/rAF.js"></script>
+    	   <script src="js/jquery-1.11.2.min.js"></script>
+		<script language="JavaScript">
+             document.oncontextmenu =new Function("return false;");
+        </script>
+
+        <audio id="whoosh" src="sound/whoosh.mp3" preload="auto"></audio>
+        <audio id="heartbeat" src="sound/heart_beat.mp3" preload="auto"></audio>
+        <audio id="cdSound" src="sound/CountdownNieuw.mp3" preload="auto"></audio>
+
+    </head>
+
+    <body>
+
+        <div class="screen-start full">
+
+            <!-- caption -->
+            <div class="caption">
+
+                <div class="Nebula-logo"></div>
+                <p>It’s our choices, that show us who we truly are<br>Those choices may transform the universe</p>
+                <a class="btn" id="start">Start</a>
+
+            </div>
+            <!-- /caption -->
+
+        </div>
+
+        <div class="screen-choice full">
+
+            <!-- sub-left -->
+            <div class="sub left">
+                <div class="choices">
+                    <ul class="slides">
+                        <li><div class="image img1a" data-value="false"></div></li>
+                        <li><div class="image img2a" data-value="false"></div></li>
+                        <li><div class="image img3a" data-value="false"></div></li>
+                        <li><div class="image img4a" data-value="false"></div></li>
+                        <li><div class="image img5a" data-value="false"></div></li>
+                        <li><div class="image img6a" data-value="false"></div></li>
+                        <li><div class="image img7a end" data-value="false"></div></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /sub-left -->
+
+            <!-- main -->
+            <div class="main">
+
+                <!-- caption -->
+                <div class="caption">
+                    <div class="Nebula-logo"></div>
+                    <p>Choose one...</p>
+                </div>
+                <!-- /caption -->
+
+                <div class="sensor-data">
+                    <div class="hartje"></div>
+                    <h3 id="hb">The beat of your heart: 160</h3>
+
+                    <div class="colors">
+                        <h3>Your color profile:</h3>
+                        <div class="row">
+                            <div class="color"></div>
+                            <div class="color"></div>
+                            <div class="color"></div>
+                            <div class="color"></div>
+                            <div class="color"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="visual" id="visual"></div>
+
+                <div class="progress">
+                    <div class="caption">
+                        <h2>Progress</h2>
+                    </div>
+                    <ul>
+                        <li><a></a></li>
+                        <li><a></a></li>
+                        <li><a></a></li>
+                        <li><a></a></li>
+                        <li><a></a></li>
+                        <li><a></a></li>
+                        <li><a></a></li>
+                    </ul>
+                </div>
+
+            </div>
+            <!-- /main -->
+
+            <!-- sub-left -->
+            <div class="sub right">
+                <div class="choices">
+                    <ul class="slides">
+                        <li><div class="image img1b" data-value="true"></div></li>
+                        <li><div class="image img2b" data-value="true"></div></li>
+                        <li><div class="image img3b" data-value="true"></div></li>
+                        <li><div class="image img4b" data-value="true"></div></li>
+                        <li><div class="image img5b" data-value="true"></div></li>
+                        <li><div class="image img6b" data-value="true"></div></li>
+                        <li><div class="image img7b end" data-value="true"></div></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /sub-left -->
+
+        </div>
+
+        <div class="screen-launch full">
+            <div class="caption">
+                <h2>Ready for take off</h2>
+                <p>Launching in...</p>
+            </div>
+
+            <div class="button">
+                <div class="countdown">
+                    <h1 id="timer">5</h1>
+                </div>
+            </div>
+
+            <div class="caption last">
+                <h2>You created life,<br>ready for the journey of transformation</h2>
+                <p>Thank you for your contribution</p>
+            </div>
+        </div>
+
+        <div class="screen-reset">
+            <div class="caption">
+                <h2>Resetting data</h2>
+                <p>Rebooting workstation and refueling launch pads.</p>
+            </div>
+        </div>
+
+        
+        <div class="partners">
+        <div class="logo"><img src="images/logobean.png" alt=""></div>
+        <div class="logo"><img class="ghg" src="images/greenhousegroup.png" alt=""></div>
+        <div class="logo"><img src="images/fontyslogo.png" alt=""></div>  
+        </div> 
+        <!-- jquery libraries -->
+		<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <!-- /jquery libraries -->
+
+        <!-- javascript libraries -->
+		<script src="js/jquery.flexslider-min.js"></script>
+        <!-- /javascript libraries -->
+
+
+		<script src="js/socket.js"></script>
+
+		<!-- javascript/jquery costum -->
+        <script src="js/functions.js"></script>
+        <!-- /javascript/jquery costum -->
+
+    </body>
+</html>
