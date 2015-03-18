@@ -21,20 +21,18 @@ module.exports = function(scene) {
     this.scene = scene;
     this.flock = new Flock();
 
-
-    this.socket = new Socket("ws://127.0.0.1:8888", self.handleInput);
-
     this.handleInput = function(data) {
         // Process data
         // New blobs
         // Adjust groups
-        console.log(data);
         var blobs = data['nodes'];
         var newId = data['userId'];
 
         var blob = _.filter(blobs, {userId: newId})[0];
         self.newBlob(blob['input_data'], blob['cluster'], 180);
     };
+
+    this.socket = new Socket("ws://127.0.0.1:8888", self.handleInput);
 
     this.newBlob = function(data, group, orientation) {
         var config = Converter.getConfig(data);
