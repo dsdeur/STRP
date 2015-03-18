@@ -5,7 +5,6 @@
 node_modules/
 
 # Generated files
-build/
 .sass-cache/
 
 # SVN files
