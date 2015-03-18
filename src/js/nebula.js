@@ -25,7 +25,10 @@ module.exports = function(scene) {
         // Process data
         // New blobs
         // Adjust groups
-        console.log(data);
+        var blobs = data['nodes'];
+        for(var x = 0, len = blobs.length; x < len; x++) {
+            self.newBlob(blob['input_data'], blob['cluster'], 180);
+        }
     });
 
     // this.newFlock = function(group) {
@@ -33,9 +36,9 @@ module.exports = function(scene) {
     //     this.flocks[group] = flock;
     // }
 
-    this.newBlob = function(data, group) {
+    this.newBlob = function(data, group, orientation) {
         var config = Converter.getConfig(data);
-        var blob = new Blob(config, group);
+        var blob = new Blob(config, group, orientation);
 
         this.flock.addBoid(blob);
         this.scene.add(blob.object);

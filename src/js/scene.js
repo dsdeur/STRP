@@ -128,8 +128,8 @@ module.exports = function(element) {
     };
 
     this.recalculateVrRegion = function() {
-        window.vrRegionX = Math.abs(this.camera.right);
-        window.vrRegionY = Math.abs(this.camera.bottom);
+        window.vrRegionX = Math.abs(this.camera.right + 40);
+        window.vrRegionY = Math.abs(this.camera.bottom -20);
     };
 
     // Add object to the scene

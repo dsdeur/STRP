@@ -46,10 +46,26 @@ for(var i = 0; i < 10; i++) {
 		Math.floor(Math.random() * 254),
 		Math.floor(Math.random() * 254)
 	];
-	for(var x = 0; x < 20; x++) {
+	for(var x = 0; x < 13; x++) {
 		nebula.newBlob(randomData(color), i);
 	}
 }
 
 
 nebula.render();
+
+
+var newBlobButton = document.getElementById('newBlob');
+var deleteBlobButton = document.getElementById('deleteBlob');
+var blobId = document.getElementById('blobId');
+
+console.log(newBlobButton, deleteBlobButton, blobId);
+
+newBlobButton.addEventListener('click', function() {
+	var color =  [
+		Math.floor(Math.random() * 254),
+		Math.floor(Math.random() * 254),
+		Math.floor(Math.random() * 254)
+	];
+	nebula.newBlob(randomData(color), 0);
+});

@@ -12,6 +12,8 @@ module.exports = function(config, group) {
     this.y = 0;
 
     this.init = function() {
+        log("New blob in group: " + group);
+
         this.initBoid();
 
         // Create the object
@@ -53,7 +55,7 @@ module.exports = function(config, group) {
 
     this.initBoid = function() {
         this.boid = new Boid();
-        this.boid.init(this.group, Math.floor(Math.random() + 200), Math.floor(Math.random() + 200));
+        this.boid.init(this.group, window.vrRegionX, 0, this.initOrientation);
     };
 
     // Animate the blob shape
@@ -106,4 +108,9 @@ module.exports = function(config, group) {
     }
 
     this.init();
+
+
+    function log(message) {
+        console.log('%c ' + message, 'background: #33FFCC; color: #0033FF');
+    }
 }

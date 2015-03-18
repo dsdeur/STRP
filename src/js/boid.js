@@ -9,7 +9,7 @@ module.exports = function() {
 
 	this.init = function(groupID, x, y) {
 		this.x = x;
-		this.y = 0;
+		this.y = y;
 		this.orientation *= Math.random();
 		this.group = groupID;
 	}
