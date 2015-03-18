@@ -4,6 +4,7 @@ var Converter = require('./configConverter.js');
 var Socket = require('./socket.js');
 var Flock = require('./flock.js');
 var Stats = require('./lib/Stats.js');
+var _ = require('lodash');
 
 var stats = new Stats();
 stats.setMode(2); // 0: fps, 1: ms
@@ -21,20 +22,19 @@ module.exports = function(scene) {
     this.flock = new Flock();
 
 
-    this.socket = new Socket("ws://127.0.0.1:8888", function(data) {
+    this.socket = new Socket("ws://127.0.0.1:8888", self.handleInput);
+
+    this.handleInput = function(data) {
         // Process data
         // New blobs
         // Adjust groups
+        console.log(data);
         var blobs = data['nodes'];
-        for(var x = 0, len = blobs.length; x < len; x++) {
-            self.newBlob(blob['input_data'], blob['cluster'], 180);
-        }
-    });
+        var newId = data['userId'];
 
-    // this.newFlock = function(group) {
-    //     var flock = new Flock();
-    //     this.flocks[group] = flock;
-    // }
+        var blob = _.filter(blobs, {userId: newId})[0];
+        self.newBlob(blob['input_data'], blob['cluster'], 180);
+    };
 
     this.newBlob = function(data, group, orientation) {
         var config = Converter.getConfig(data);
