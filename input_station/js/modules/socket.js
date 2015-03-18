@@ -1,9 +1,9 @@
-function Socket(url, messageHandlers) {
+function Socket(url, messageHandler) {
     var self = this;
     this.url = url;
     this.messageHandlers
     this.socket = null;
-    this.isopen = null;
+    this.isopen = false;
 
     // Connects te socket
     this.connect = function() {
@@ -27,6 +27,8 @@ function Socket(url, messageHandlers) {
     this.onClose = function(e) {
         log('Socket connection closed');
 
+        this.isopen = false;
+
         // Poll for socket connection
         setTimeout(function() {
             self.connect();
@@ -39,20 +41,29 @@ function Socket(url, messageHandlers) {
             return;
         }
 
-        // Parse the incoming message
-        var json = JSON.parse(e.data);
-        var message = json['message'];
-        var data = json['data'];
-
         // Call the message handler and pass the data
-        messageHandlers['message'](data);
+        messageHandler(data);
     }
 
     // Sends messages to server
     this.sendMessage = function(message, data) {
+        if(!this.isopen) {
+            log("Cannot send message, not connected");
+            return;
+        }
+
         // Create JSON string from message and data
         console.log(JSON.stringify(data));
         this.socket.send(JSON.stringify(data));
+    }
+
+    this.sendTextMessage = function(message) {
+        if(!this.isopen) {
+            log("Cannot send message, not connected");
+            return;
+        }
+
+        this.socket.send(message);
     }
 
     function log(message) {
