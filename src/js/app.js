@@ -3,6 +3,8 @@ var Scene = require('./scene.js');
 var Nebula = require('./nebula.js');
 
 
+window.DEBUGGING = true;
+
 // Init the scene
 var scene = new Scene(document.body);
 scene.resize(window.innerWidth, window.innerHeight);
@@ -15,7 +17,12 @@ window.onresize = function() {
 
 // Create the nebula! :O
 var nebula = new Nebula(scene);
-nebula.render();
+
+if(window.DEBUGGING) {
+	nebula.debugRender();
+} else {
+	nebula.render();
+}
 
 
 
@@ -43,7 +50,7 @@ function getRandomHexColor() {
 }
 
 // Add random blobs
-for(var i = 0; i < 0; i++) {
+for(var i = 0; i < 5; i++) {
 	var color = getRandomHexColor();
 
 	for(var x = 0; x < 10; x++) {
@@ -51,12 +58,30 @@ for(var i = 0; i < 0; i++) {
 	}
 }
 
-// Get buttons
-var newBlobButton = document.getElementById('newBlob');
-var deleteBlobButton = document.getElementById('deleteBlob');
+
+// Add add/delete buttons if debugging
+if(window.DEBUGGING) {
+	var div = document.createElement("div");
+	div.id = 'form';
+
+	var newBlobButton = document.createElement("button"); //input element, text
+	newBlobButton.id = 'newBlob';
+	newBlobButton.innerHTML = 'New Blob';
+	newBlobButton.addEventListener('click', addRandomBlob);
+
+	// var deleteBlobButton = document.createElement("button"); //input element, text
+	// deleteBlobButton.id = 'deleteBlob';
+	// deleteBlobButton.innerHTML = 'Delete Blob';
+	// deleteBlobButton.addEventListener('click', deleteRandomBlob);
+
+	div.appendChild(newBlobButton);
+	//div.appendChild(deleteBlobButton);
+
+	document.getElementsByTagName('body')[0].appendChild(div);
+}
 
 // Add new blob on button click
-newBlobButton.addEventListener('click', function() {
+function addRandomBlob() {
 	var color = getRandomHexColor();
-	nebula.newBlob(randomData(color), Math.floor(Math.random() + 10));
-});
+	nebula.newBlob(randomData(color), Math.floor(Math.random() * 10));
+};
