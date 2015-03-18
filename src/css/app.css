@@ -120,7 +120,6 @@ button {width: auto; overflow: visible;}
 
 /*End of Reset-------------------------------------------------------------------*/
 html {
-	background: url(foto/BG.png) no-repeat center center fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
