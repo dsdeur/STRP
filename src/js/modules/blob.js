@@ -1,9 +1,9 @@
 var THREE = require('three');
 var Boid = require('./boid.js');
-var vsnormal = require('./shaders/transform_normal.vs');
-var fsnormal = require('./shaders/transform_normal.fs');
-var TransformUniforms = require('./shaders/transform_normal_uniforms.js');
-var TransformAttributes = require('./shaders/transform_normal_attributes.js');
+var vsnormal = require('./../shaders/transform_normal.vs');
+var fsnormal = require('./../shaders/transform_normal.fs');
+var TransformUniforms = require('./../shaders/transform_normal_uniforms.js');
+var TransformAttributes = require('./../shaders/transform_normal_attributes.js');
 
 module.exports = function(config, group) {
     this.config = config ? config : randomConfig();

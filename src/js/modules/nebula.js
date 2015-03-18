@@ -3,7 +3,7 @@ var Blob = require('./blob.js');
 var Converter = require('./configConverter.js');
 var Socket = require('./socket.js');
 var Flock = require('./flock.js');
-var Stats = require('./lib/Stats.js');
+var Stats = require('./../lib/Stats.js');
 var _ = require('lodash');
 
 

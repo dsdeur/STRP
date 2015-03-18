@@ -1,8 +1,8 @@
 var THREE = require('three');
-var Scene = require('./scene.js');
-var Nebula = require('./nebula.js');
+var Scene = require('./modules/scene.js');
+var Nebula = require('./modules/nebula.js');
 
-
+// Set environment var
 window.DEBUGGING = true;
 
 // Init the scene
@@ -18,6 +18,7 @@ window.onresize = function() {
 // Create the nebula! :O
 var nebula = new Nebula(scene);
 
+// Start the render loop
 if(window.DEBUGGING) {
 	nebula.debugRender();
 } else {
