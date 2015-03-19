@@ -50,14 +50,72 @@ function getRandomHexColor() {
 	}).join('');
 }
 
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
+}
+
+
+var simulatedInputData = {
+    "timestamp": 1,
+    "nodes": [],
+    "clusters": [
+        {
+            "1": [20, 24],
+            "2": [14, 7]
+        }
+    ]
+
+};
+
 // Add random blobs
-for(var i = 0; i < 5; i++) {
+for(var i = 0; i < 6; i++) {
 	var color = getRandomHexColor();
 
 	for(var x = 0; x < 10; x++) {
-		nebula.newBlob(randomData(color), i);
+		var config = randomData(color);
+		var id = guid();
+		simulatedInputData['nodes'].push({
+            "userId": id,
+            "input_data": config,
+            "cluster": i,
+            "position": [3, 4]
+        });
+
+		nebula.newBlob(config, i, id);
 	}
 }
+
+
+addRandomBlob();
+
+function inputSimulator() {
+	console.log('update');
+	if(simulatedInputData['nodes'].length == 0) {
+		return;
+	}
+
+	var nrOfEdits = Math.floor(Math.random() * 50);
+
+	for(var i = 0; i < nrOfEdits; i++) {
+		var index = Math.floor(Math.random() * simulatedInputData['nodes'].length);
+		var group = Math.floor(Math.random() * 6);
+		//console.log(group);
+		simulatedInputData['nodes'][index].cluster = group;
+	}
+
+	nebula.handleInput(simulatedInputData);
+
+	setTimeout(function(){inputSimulator();}, 5000);
+}
+
+inputSimulator();
+
 
 
 // Add add/delete buttons if debugging
@@ -84,5 +142,16 @@ if(window.DEBUGGING) {
 // Add new blob on button click
 function addRandomBlob() {
 	var color = getRandomHexColor();
-	nebula.newBlob(randomData(color), Math.floor(Math.random() * 10));
+	var config = randomData(color);
+	var cluster = Math.floor(Math.random() * 10);
+
+	var id = guid();
+	simulatedInputData['nodes'].push({
+        "userId": id,
+        "input_data": config,
+        "cluster": cluster,
+        "position": [3, 4]
+    });
+
+	nebula.newBlob(config, cluster, id);
 };

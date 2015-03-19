@@ -29,21 +29,33 @@ module.exports = function(scene) {
         // Process data
         // New blobs
         // Adjust groups
+
         var blobs = data['nodes'];
         var newId = data['userId'];
 
+        self.flock.update(blobs);
+
         var blob = _.filter(blobs, {userId: newId})[0];
-        self.newBlob(blob['input_data'], blob['cluster'], 180);
+
+        if(blob == undefined) {
+            return;
+        }
+
+        self.newBlob(blob['input_data'], blob['cluster'], 180, newId);
     };
 
     this.socket = new Socket("ws://127.0.0.1:8888", self.handleInput);
 
-    this.newBlob = function(data, group, orientation) {
+    this.newBlob = function(data, group, id) {
         var config = Converter.getConfig(data);
-        var blob = new Blob(config, group, orientation);
+        var blob = new Blob(config, group, id);
 
         this.flock.addBoid(blob);
         this.scene.add(blob.object);
+    };
+
+    this.deleteBlob = function() {
+
     };
 
     this.debugRender = function() {
