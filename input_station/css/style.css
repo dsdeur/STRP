@@ -8,8 +8,8 @@ body {
 	height: 100%;
     color: #fff;
 	font-size: 14px;
-	line-height: 1.42857;
-    font-family: 'baron';	
+	line-height: 1.5;
+   /* font-family: 'baron';	*/
 	background-image: url(../images/achtergrond.jpg);
 	background-position: center center;
 	background-attachment: fixed;
@@ -17,19 +17,20 @@ body {
 	-moz-background-size: cover;
 	background-size: cover;
 	-o-background-size: cover;
-	overflow: hidden;
-	
-	
+	font-weight: 200;
+	/*overflow: hidden;*/
+
+
 }
 
 body > * {
--webkit-touch-callout:none;
+/*-webkit-touch-callout:none;
 -webkit-user-select:none;
 -khtml-user-select:none;
 -moz-user-select:none;
 -ms-user-select:none;
-user-select:none;
-cursor:none !important;
+user-select:none;*/
+/*cursor:none !important;*/
 }
 
 @font-face {
@@ -62,15 +63,15 @@ cursor:none !important;
    base
    ========================================================================== */
 
-html, 
+html,
 body { height: 100%; }
 
 /* global
    ========================================================================== */
-   
+
 /* links */
 a {
-	color: #0088cc; 
+	color: #0088cc;
 	text-decoration: none;
 	transition: all 0.3s ease;
 }
@@ -78,20 +79,21 @@ a:hover { color: #005580;}
 a:focus { outline: none;}
 
 /* headlines */
-h1, 
-h2, 
-h3, 
-h4, 
-h5, 
+h1,
+h2,
+h3,
+h4,
+h5,
 h6 {
-	color: #fff; 
-	font-weight: normal; 
-	line-height: 1.5; 
+	color: #fff;
+	font-weight: lighter;
+	line-height: 1.5;
 	margin: 0;
 }
 
 /* text */
-p { margin-top: 0;}
+p { margin-top: 0;
+font-weight:  800}
 
 /* breaks */
 hr { height: 0; border: 0; border-top: 1px solid #ccc;}
@@ -101,8 +103,11 @@ hr { height: 0; border: 0; border-top: 1px solid #ccc;}
 }
 
 #hb {
-  font-size: 30px;
-  margin-top: 35px;
+ 	font-size: 14px;
+    font-family: 'baron';
+	color: #fff;
+	letter-spacing: 3px;
+
 }
 
 /* ==========================================================================
@@ -136,7 +141,7 @@ hr { height: 0; border: 0; border-top: 1px solid #ccc;}
 	position: relative;
 	min-height: 1920px;
 	width: 1080px;
-	margin: 0 auto;	
+	margin: 0 auto;
 }
 
 .caption {
@@ -144,23 +149,57 @@ hr { height: 0; border: 0; border-top: 1px solid #ccc;}
 	z-index: 100;
 	display: table;
 	margin: 0 auto;
-	
-	text-align: center;	
+	text-align: center;
 }
 .caption h2 {
-	margin-bottom: 25px;
-	font-size: 50px;
+	margin-bottom: 30px;/*
+	font-size: 50px;*/
 	color: #fff;
 }
 .caption p {
 	margin-bottom: 25px;
-	font-size: 28px;
+	font-size: 30px;
 	font-weight: lighter;
-	
+	text-transform: uppercase;
     font-family: 'Open Sans', sans-serif;
 	color: #fff;
+	letter-spacing: 5px;
 }
 
+.none{
+	text-transform: none!important;
+	letter-spacing: normal!important;
+}
+
+.title{
+	margin-bottom: 30px;
+	font-size: 35px;
+	font-weight: lighter;
+	text-transform: none;
+    font-family: 'baron';
+	color: #fff;
+	letter-spacing: 4px;
+}
+
+.small{
+	margin-bottom: 30px;
+	font-size: 20px;
+	font-weight: lighter;
+	text-transform: none;
+    font-family: 'baron';
+	color: #fff;
+	letter-spacing: 4px;
+}
+
+.quote{
+	margin-bottom: 25px;
+	font-size: 20px;
+	font-weight: lighter;
+	text-transform: uppercase;
+    font-family: 'Open Sans';
+	color: #fff;
+	letter-spacing: 1px;
+}
 /* ==========================================================================
    screen-start
    ========================================================================== */
@@ -188,13 +227,13 @@ hr { height: 0; border: 0; border-top: 1px solid #ccc;}
 	color: #fff;
 }
 .screen-start .caption .btn {
-	font-size: 36px;
+	/*font-size: 36px;*/
 }
 
 /* ==========================================================================
    screen-choice
    ========================================================================== */
-   
+
 .screen-choice {
 	position: relative;
 	width: 100%;
@@ -264,12 +303,14 @@ hr { height: 0; border: 0; border-top: 1px solid #ccc;}
 .screen-choice .main .progress {
 	position: absolute;
 	bottom: 200px;
-	z-index: 0;	
+	z-index: 0;
 	width: 100%;
 }
 .screen-choice .main .progress .caption h2 {
-	font-size: 28px;
-	font-weight: lighter;
+	font-size: 30px;
+    font-family: 'baron';
+	color: #fff;
+	letter-spacing: 10px;
 }
 .screen-choice .main .progress ul {
 	position: relative;
@@ -286,7 +327,7 @@ hr { height: 0; border: 0; border-top: 1px solid #ccc;}
 	margin: 0 5px;
 	border-radius: 50%;
 	background-color: rgba(204,204,204,0.3);
-	
+
 	-webkit-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.25);
 	-moz-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.25);
 	box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.25);
@@ -329,13 +370,13 @@ hr { height: 0; border: 0; border-top: 1px solid #ccc;}
 	margin-left: -185px;
 	height: 370px;
 	width: 370px;
-	
+
 	border: 3px solid #fff;
 	border-radius: 50%;
-	
+
 	background-size: auto 102%;
 	background-position: center center;
-	background-repeat: no-repeat;	
+	background-repeat: no-repeat;
 	-webkit-box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.25);
 	-moz-box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.25);
 	box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.25);
@@ -411,7 +452,7 @@ hr { height: 0; border: 0; border-top: 1px solid #ccc;}
 	border-radius: 50%;
 	background-size: auto 100%;
 	background-position: center center;
-	background-repeat: no-repeat;	
+	background-repeat: no-repeat;
 	-webkit-box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.25);
 	-moz-box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.25);
 	box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.25);
@@ -433,17 +474,17 @@ hr { height: 0; border: 0; border-top: 1px solid #ccc;}
 /* ==========================================================================
    screen-reset
    ==========================================================================  */
-   
-.screen-reset {	
+
+.screen-reset {
 	position: fixed;
 	top: 0;
 	left: 0;
 	z-index: -1;
 	opacity: 0;
-	
+
 	min-height: 100%;
 	width: 100%;
-	
+
 	background-color: #000;
 	transition: all 1s ease;
 }
@@ -458,15 +499,16 @@ hr { height: 0; border: 0; border-top: 1px solid #ccc;}
 /* ==========================================================================
    logo
    ==========================================================================  */
-   
+
 .Nebula-logo {
-	width: 300px;
-	height: 200px;
+	width: 400px;
+	height: 300px;
 	background-image: url(../images/logonebula2.png);
 	background-size: 100% auto;
 	background-repeat: no-repeat;
 	background-position: center center;
 	margin: 0 auto;
+	margin-bottom: 30px;
 
 }
 
@@ -506,11 +548,11 @@ hr { height: 0; border: 0; border-top: 1px solid #ccc;}
 	z-index: 500;
 	width: 300px;
 	height: 100px;
-	
+
 	background-image: url(../images/logobean.png);
 	background-size: 100% auto;
 	background-repeat: no-repeat;
-	background-position: center center;	
+	background-position: center center;
 }
 
 .partners {
@@ -545,7 +587,6 @@ hr { height: 0; border: 0; border-top: 1px solid #ccc;}
 .content img, .content iframe { border: none;}
 .content img { max-width: 100%; height: auto;}
 
-
 /* ==========================================================================
    images
    ========================================================================== */
@@ -575,14 +616,14 @@ hr { height: 0; border: 0; border-top: 1px solid #ccc;}
 
 .btn {
 	display: inline-block;
-	padding: 30px 100px;
-	
+	padding: 50px;
+
 	color: #fff;
 	line-height: 20px;
 	text-align: center;
 	vertical-align: middle;
 	border: 3px solid #fff;
-	
+
 	transition: background 0.3s ease;
 }
 .btn:hover {
@@ -593,8 +634,6 @@ hr { height: 0; border: 0; border-top: 1px solid #ccc;}
 .btn-block {
 	display: block;
 	width: 100%;
-	padding-left: 0;
-	padding-right: 0;
 }
 
 /* Size */
@@ -602,35 +641,43 @@ hr { height: 0; border: 0; border-top: 1px solid #ccc;}
 .btn-small {}
 .btn-mini {}
 
+/* BTN style */
+.btn-text{
+	letter-spacing: 12px;
+	font-size: 24px!important;
+	font-family: 'baron'!important;
+	font-weight: lighter!important;
+}
+
 
 /* ==========================================================================
    FlexSlider
    ========================================================================== */
 
-.slides, 
-.flex-control-nav, 
+.slides,
+.flex-control-nav,
 .flex-direction-nav {
-	margin: 0; 
-	padding: 0; 
+	margin: 0;
+	padding: 0;
 	list-style: none;
 }
 .slides > li {
-	display: none; 
+	display: none;
 	-webkit-backface-visibility: hidden;
 } /* Hide the slides before the JS is loaded. Avoids image jumping */
 .slides img {
-	width: 100%; 
+	width: 100%;
 	display: block;
 }
 .flex-pauseplay span { text-transform: capitalize; }
 
 /* Clearfix for the .slides element */
 .slides:after {
-	content: "."; 
-	display: block; 
-	clear: both; 
-	visibility: hidden; 
-	line-height: 0; 
-	height: 0;} 
-html[xmlns] .slides { display: block; } 
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;}
+html[xmlns] .slides { display: block; }
 * html .slides { height: 1%; }
