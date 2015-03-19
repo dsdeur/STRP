@@ -1,15 +1,16 @@
 var THREE = require('three');
 var Boid = require('./boid.js');
-var vsnormal = require('./shaders/transform_normal.vs');
-var fsnormal = require('./shaders/transform_normal.fs');
-var TransformUniforms = require('./shaders/transform_normal_uniforms.js');
-var TransformAttributes = require('./shaders/transform_normal_attributes.js');
+var vsnormal = require('./../shaders/transform_normal.vs');
+var fsnormal = require('./../shaders/transform_normal.fs');
+var TransformUniforms = require('./../shaders/transform_normal_uniforms.js');
+var TransformAttributes = require('./../shaders/transform_normal_attributes.js');
 
-module.exports = function(config, group) {
+module.exports = function(config, group, id) {
     this.config = config ? config : randomConfig();
     this.group = group;
     this.x = 0;
     this.y = 0;
+    this.id = id;
 
     this.init = function() {
         log("New blob in group: " + group);
@@ -75,6 +76,11 @@ module.exports = function(config, group) {
         this.y = position.y - window.vrRegionY;
 
         this.reposition();
+    };
+
+    this.changeGroup = function(group) {
+        this.group = group;
+        this.boid.group = group;
     };
 
     // Change the blob position

@@ -1,58 +1,69 @@
 var THREE = require('three');
-var Scene = require('./scene.js');
-var Nebula = require('./nebula.js');
+var Scene = require('./modules/scene.js');
+var Nebula = require('./modules/nebula.js');
 
-var data = {
-	color: [ 57, 245, 192 ],
-    klassiekModern: false,
-    volgendLeidend:  false,
-    natuurFuturistisch: true,
-    creatiefLogisch: false,
-    introvertExtravert: true,
-    rustigDruk: false,
-    chaotischGestructureerd: true,
-    hartslag: 60
-};
+// Set environment var
+window.DEBUGGING = true;
 
+// Init the scene
+var scene = new Scene(document.body);
+scene.resize(window.innerWidth, window.innerHeight);
+scene.render();
+
+// Resize canvas on window resizes
+window.onresize = function() {
+    scene.resize(window.innerWidth, window.innerHeight);
+}
+
+// Create the nebula! :O
+var nebula = new Nebula(scene);
+
+// Start the render loop
+if(window.DEBUGGING) {
+	nebula.debugRender();
+} else {
+	nebula.render();
+}
+
+
+
+// CODE FOR TESTING PURPOSES ---------------------------------------
 function randomData(color) {
 	var data = {
-		c1:'34ff34',
+		c1: color,
+		hb: 66,
 		var1: Math.random() < 0.5 ? true : false,
-		var2:  Math.random() < 0.5 ? true : false,
+		var2: Math.random() < 0.5 ? true : false,
 		var3: Math.random() < 0.5 ? true : false,
 		var4: Math.random() < 0.5 ? true : false,
 		var5: Math.random() < 0.5 ? true : false,
 		var6: Math.random() < 0.5 ? true : false,
-		var7:  Math.random() < 0.5 ? true : false,
-		hb: Math.floor(Math.random() * 100) + 50
+		var7: Math.random() < 0.5 ? true : false
 	};
 
 	return data;
 }
 
-var color =  [
-	Math.floor(Math.random() * 254),
-	Math.floor(Math.random() * 254),
-	Math.floor(Math.random() * 254)
-];
+function getRandomHexColor() {
+	return '0123456789abcdef'.split('').map(function(v,i,a){
+  		return i>5 ? null : a[Math.floor(Math.random()*16)]
+	}).join('');
+}
 
-var sampleInput ={
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
+}
+
+
+var simulatedInputData = {
     "timestamp": 1,
-	"userId": 2,
-    "nodes": [
-        {
-            "userId": 1,
-            "input_data": randomData(color),
-            "cluster": 3,
-            "position": [3, 4]
-        },
-        {
-            "userId": 2,
-            "input_data": randomData(color),
-            "cluster": 6,
-            "position": [16, 3]
-        }
-    ],
+    "nodes": [],
     "clusters": [
         {
             "1": [20, 24],
@@ -62,43 +73,85 @@ var sampleInput ={
 
 };
 
-var scene = new Scene(document.body);
-scene.resize(window.innerWidth, window.innerHeight);
-scene.render();
+// Add random blobs
+for(var i = 0; i < 6; i++) {
+	var color = getRandomHexColor();
 
-window.onresize = function() {
-    scene.resize(window.innerWidth, window.innerHeight);
-}
-
-var nebula = new Nebula(scene);
-for(var i = 0; i < 10; i++) {
-	var color =  [
-		Math.floor(Math.random() * 254),
-		Math.floor(Math.random() * 254),
-		Math.floor(Math.random() * 254)
-	];
 	for(var x = 0; x < 10; x++) {
-		nebula.newBlob(randomData(color), i);
+		var config = randomData(color);
+		var id = guid();
+		simulatedInputData['nodes'].push({
+            "userId": id,
+            "input_data": config,
+            "cluster": i,
+            "position": [3, 4]
+        });
+
+		nebula.newBlob(config, i, id);
 	}
 }
 
 
-nebula.render();
+addRandomBlob();
+
+function inputSimulator() {
+	console.log('update');
+	if(simulatedInputData['nodes'].length == 0) {
+		return;
+	}
+
+	var nrOfEdits = Math.floor(Math.random() * 50);
+
+	for(var i = 0; i < nrOfEdits; i++) {
+		var index = Math.floor(Math.random() * simulatedInputData['nodes'].length);
+		var group = Math.floor(Math.random() * 6);
+		//console.log(group);
+		simulatedInputData['nodes'][index].cluster = group;
+	}
+
+	nebula.handleInput(simulatedInputData);
+
+	setTimeout(function(){inputSimulator();}, 5000);
+}
+
+inputSimulator();
 
 
-var newBlobButton = document.getElementById('newBlob');
-var deleteBlobButton = document.getElementById('deleteBlob');
-var blobId = document.getElementById('blobId');
 
-console.log(newBlobButton, deleteBlobButton, blobId);
+// Add add/delete buttons if debugging
+if(window.DEBUGGING) {
+	var div = document.createElement("div");
+	div.id = 'form';
 
-newBlobButton.addEventListener('click', function() {
-	// var color =  [
-	// 	Math.floor(Math.random() * 254),
-	// 	Math.floor(Math.random() * 254),
-	// 	Math.floor(Math.random() * 254)
-	// ];
-	// nebula.newBlob(randomData(color), 0);
+	var newBlobButton = document.createElement("button"); //input element, text
+	newBlobButton.id = 'newBlob';
+	newBlobButton.innerHTML = 'New Blob';
+	newBlobButton.addEventListener('click', addRandomBlob);
 
-	nebula.handleInput(sampleInput);
-});
+	// var deleteBlobButton = document.createElement("button"); //input element, text
+	// deleteBlobButton.id = 'deleteBlob';
+	// deleteBlobButton.innerHTML = 'Delete Blob';
+	// deleteBlobButton.addEventListener('click', deleteRandomBlob);
+
+	div.appendChild(newBlobButton);
+	//div.appendChild(deleteBlobButton);
+
+	document.getElementsByTagName('body')[0].appendChild(div);
+}
+
+// Add new blob on button click
+function addRandomBlob() {
+	var color = getRandomHexColor();
+	var config = randomData(color);
+	var cluster = Math.floor(Math.random() * 10);
+
+	var id = guid();
+	simulatedInputData['nodes'].push({
+        "userId": id,
+        "input_data": config,
+        "cluster": cluster,
+        "position": [3, 4]
+    });
+
+	nebula.newBlob(config, cluster, id);
+};
