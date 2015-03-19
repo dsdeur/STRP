@@ -26,10 +26,10 @@ module.exports = function(scene) {
         // New blobs
         // Adjust groups
         var blobs = data['nodes'];
-        var newId = data['userId'];
-
+        var newId = data['newestNode'];
+        console.log(data);
         var blob = _.filter(blobs, {userId: newId})[0];
-        self.newBlob(blob['input_data'], blob['cluster'], 180);
+        self.newBlob(blob['input_data']['profiles'], blob['cluster'], 180);
     };
 
     this.socket = new Socket("ws://127.0.0.1:8888", self.handleInput);

@@ -28,11 +28,11 @@ module.exports.getConfig = function(data) {
 			config.movement = 1;
 		}
 
-		config.color = data.color;
+		config.color = data['c1'];
 
 		//Testen > anders durge zijn schuld anders > baas
-		data.hartslag = Math.min(Math.max(data.hartslag, 50), 140) - 50;
-		config.speed2 = (0.2 * data.hartslag ) / 90;
+		data['hb'] = Math.min(Math.max(data['hb'], 50), 140) - 50;
+		config.speed2 = (0.2 * data['hb'] ) / 90;
 		
 		if (data.introvertExtravert = true){
 			config.level = 0.7;

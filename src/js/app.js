@@ -16,15 +16,15 @@ var data = {
 
 function randomData(color) {
 	var data = {
-		color:color,
-		klassiekModern: Math.random() < 0.5 ? true : false,
-		volgendLeidend:  Math.random() < 0.5 ? true : false,
-		natuurFuturistisch: Math.random() < 0.5 ? true : false,
-		creatiefLogisch: Math.random() < 0.5 ? true : false,
-		introvertExtravert: Math.random() < 0.5 ? true : false,
-		rustigDruk: Math.random() < 0.5 ? true : false,
-		chaotischGestructureerd:  Math.random() < 0.5 ? true : false,
-		hartslag: Math.floor(Math.random() * 100) + 50
+		c1:'34ff34',
+		var1: Math.random() < 0.5 ? true : false,
+		var2:  Math.random() < 0.5 ? true : false,
+		var3: Math.random() < 0.5 ? true : false,
+		var4: Math.random() < 0.5 ? true : false,
+		var5: Math.random() < 0.5 ? true : false,
+		var6: Math.random() < 0.5 ? true : false,
+		var7:  Math.random() < 0.5 ? true : false,
+		hb: Math.floor(Math.random() * 100) + 50
 	};
 
 	return data;
@@ -71,7 +71,7 @@ window.onresize = function() {
 }
 
 var nebula = new Nebula(scene);
-for(var i = 0; i < 0; i++) {
+for(var i = 0; i < 10; i++) {
 	var color =  [
 		Math.floor(Math.random() * 254),
 		Math.floor(Math.random() * 254),

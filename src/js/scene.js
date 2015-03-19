@@ -7,12 +7,14 @@ module.exports = function(element) {
 
 
     //Mapping properties
-    this.skew = 0;
+  //  this.skew = -80;
+  this.skew = 0;
 
     this.positions = [
         //Links boven | Rechts boven |  Links onder |   Rechts onder
-        [{x:-1,y:1},        {x:1,y:1},      {x:-1,y:-1},        {x:1,y:-1}],
-        [{x:-1,y:1},        {x:1,y:1},      {x:-1,y:-1},        {x:1,y:-1}],
+        [{x:-0.6,y:1},   {x:.8,y:1},   {x:-.73,y:-1},    {x:.73,y:-1}], //vak rechts
+        [{x:-.54,y:.57},  {x:.35,y:.57},{x:-.6,y:-0.6}, {x:.37,y:-0.6}], //vak links
+
     ]
 
     this.cameraRTT1;
@@ -41,26 +43,29 @@ module.exports = function(element) {
         });
 
         //Mapping cameras 1 camera per beamer
-        this.cameraRTT1 = new THREE.OrthographicCamera( window.innerWidth / - 2, this.skew, window.innerHeight / 2, window.innerHeight / - 2, -10000, 10000 );
+        this.cameraRTT1 = new THREE.OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2,window.innerHeight * 2,this.skew, -10000, 10000 );
         this.cameraRTT1.position.z = 100;
 
-        this.cameraRTT2 = new THREE.OrthographicCamera( this.skew, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, -10000, 10000 );
+        this.cameraRTT2 = new THREE.OrthographicCamera( window.innerWidth / -2, window.innerWidth / 2,this.skew,window.innerHeight * -2, -10000, 10000 );
         this.cameraRTT2.position.z = 100;
 
         this.rtTexture1 = new THREE.WebGLRenderTarget( window.innerWidth * 2, window.innerHeight * 2, { minFilter: THREE.LinearFilter, magFilter: THREE.NearestFilter, format: THREE.RGBFormat } );
         this.rtTexture2 = new THREE.WebGLRenderTarget( window.innerWidth * 2, window.innerHeight * 2, { minFilter: THREE.LinearFilter, magFilter: THREE.NearestFilter, format: THREE.RGBFormat } );
 
 
-        this.rtGeometry[0] = new THREE.PlaneBufferGeometry(window.innerWidth / 2,window.innerHeight);
-        this.rtGeometry[1] = new THREE.PlaneBufferGeometry(window.innerWidth / 2,window.innerHeight);
+        this.rtGeometry[0] = new THREE.PlaneGeometry(window.innerWidth / 2,window.innerHeight);
+        this.rtGeometry[1] = new THREE.PlaneGeometry(window.innerWidth / 2,window.innerHeight);
 
 
         for(var x = 0; x < this.rtGeometry.length; x++){
-            for(var i = 0; i < this.rtGeometry[x].attributes.position; i++) {
-                this.rtGeometry[x].attributes.position[i].x = this.positions[x][i].x * (window.innerWidth / 4);
-                this.rtGeometry[x].attributes.position[i].y = this.positions[x][i].y * (window.innerHeight / 2);
+
+            for(var i = 0; i < this.rtGeometry[x].vertices.length; i++) {
+                console.log(this.rtGeometry[x].vertices)
+                this.rtGeometry[x].vertices[i].x = this.positions[x][i].x * (window.innerWidth / 4);
+                this.rtGeometry[x].vertices[i].y = this.positions[x][i].y * (window.innerHeight / 2);
             }
             this.rtGeometry[x].verticesNeedUpdate = true;
+
         }
 
 
@@ -73,8 +78,8 @@ module.exports = function(element) {
         this.sceneRTT.add( this.output1 );
         this.sceneRTT.add( this.output2 );
 
-        this.output1.position.set(-window.innerWidth / 4,0,0)
-        this.output2.position.set(window.innerWidth / 4,0,0)
+        this.output1.position.set(window.innerWidth / 4,0,0)
+        this.output2.position.set(-window.innerWidth / 4,0,0)
 
 
         // Append the scene to the body
@@ -105,11 +110,11 @@ module.exports = function(element) {
         // this.scene.add(this.light);
 
         this.bgMesh = new THREE.Mesh(
-          new THREE.PlaneBufferGeometry(window.innerWidth,window.innerHeight),
+          new THREE.PlaneBufferGeometry(window.innerWidth,window.innerHeight * 4),
           new THREE.MeshBasicMaterial({
-              map: THREE.ImageUtils.loadTexture('../img/background.jpg')
+              map: THREE.ImageUtils.loadTexture('../img/background3.jpg')
           })
-        );
+        ); 
 
         // The bg plane shouldn't care about the z-buffer.
         this.bgMesh.material.depthTest = false;
@@ -129,7 +134,7 @@ module.exports = function(element) {
 
     this.recalculateVrRegion = function() {
         window.vrRegionX = Math.abs(this.camera.right + 40);
-        window.vrRegionY = Math.abs(this.camera.bottom -20);
+        window.vrRegionY = Math.abs(this.camera.bottom * 4 -20);
     };
 
     // Add object to the scene
@@ -140,10 +145,10 @@ module.exports = function(element) {
     // Render the scene
     this.render = function() {
 
-        //self.renderer.setClearColor(new THREE.Color().setRGB( 0, 0, 1 ));
+        self.renderer.setClearColor(new THREE.Color().setRGB( 0, 0, 1 ));
         self.renderer.render( self.scene, self.cameraRTT1, self.rtTexture1, true );
 
-        //self.renderer.setClearColor(new THREE.Color().setRGB( 0.5, 0.9, 0.4 ));
+        self.renderer.setClearColor(new THREE.Color().setRGB( 0.5, 0.9, 0.4 ));
         self.renderer.render( self.scene, self.cameraRTT2, self.rtTexture2, true );
 
         self.renderer.render(self.sceneRTT, self.camera);
