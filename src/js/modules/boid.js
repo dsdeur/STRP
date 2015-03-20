@@ -12,12 +12,14 @@ module.exports = function() {
 	this.init = function(groupID, x, y) {
 		this.x = x;
 		this.y = y;
-		this.orientation *= Math.random();
+		this.velocity = 25;
+		this.orientation = 181.321654687;
 		this.group = groupID;
 	}
 
 	this.run = function(boids) {
 		this.resetBoid();
+		this.launch();
 		this.separate(boids);
 		this.align(boids);
 		this.cohesion(boids);
@@ -94,8 +96,8 @@ module.exports = function() {
 	}
 
 	this.separate = function(boids) {
-		var desiredSeparation = 10,
-			separationSpeed = 5,
+		var desiredSeparation = 30,
+			separationSpeed = 15,
 			forceX,
 			forceY,
 			nearestNeighbour = false,
@@ -131,7 +133,7 @@ module.exports = function() {
 	}
 
 	this.align = function(boids) {
-		var neighbourDistance = 30,
+		var neighbourDistance = 90,
 			averageAlignment = this.orientation,
 			counter = 1,
 			ratio;
@@ -165,8 +167,8 @@ module.exports = function() {
 	}
 
 	this.cohesion = function(boids) {
-		var desiredCohesion = 20,
-			cohesionSpeed = 4.5,
+		var desiredCohesion = 60,
+			cohesionSpeed = 9,
 			forceX,
 			forceY,
 			nearestNeighbour = false,
@@ -205,7 +207,7 @@ module.exports = function() {
 	}
 
 	this.avoid = function(boids){
-		var neighbourDistance = 20;
+		var neighbourDistance = 60;
 		for(var i = 0; i < boids.length; i++){
 			if(this.group != boids[i].boid.group){
 
@@ -220,6 +222,14 @@ module.exports = function() {
 			}
 		}
 	}
+
+	this.launch = function() {
+		if(this.velocity > 1) {
+			this.velocity *= 0.983;
+		} else {
+			this.velocity = 1;
+		}
+	};
 
 	this.preventFail = function() { //hernoemen
 		if(this.orientation > 360){

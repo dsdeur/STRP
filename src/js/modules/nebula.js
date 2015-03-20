@@ -31,17 +31,17 @@ module.exports = function(scene) {
         // Adjust groups
 
         var blobs = data['nodes'];
-        var newId = data['userId'];
+        var newId = data['newestNode'];
 
-        self.flock.update(blobs);
+        self.flock.update(blobs, self);
 
         var blob = _.filter(blobs, {userId: newId})[0];
 
-        if(blob == undefined) {
-            return;
-        }
-
-        self.newBlob(blob['input_data'], blob['cluster'], 180, newId);
+        // if(blob == undefined) {
+        //     return;
+        // }
+        console.log(newId);
+        self.newBlob(blob['input_data'], blob['cluster'], newId);
     };
 
     this.socket = new Socket("ws://127.0.0.1:8888", self.handleInput);

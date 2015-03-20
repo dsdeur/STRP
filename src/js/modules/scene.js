@@ -12,8 +12,8 @@ module.exports = function(element) {
 
     this.positions = [
         //Links boven | Rechts boven |  Links onder |   Rechts onder
-        [{x:-0.6,y:1},   {x:.8,y:1},   {x:-.73,y:-1},    {x:.73,y:-1}], //vak rechts
-        [{x:-.54,y:.57},  {x:.35,y:.57},{x:-.6,y:-0.6}, {x:.37,y:-0.6}], //vak links
+        [{x:-0.65,y:1},   {x:.8,y:1},   {x:-.72,y:-1},    {x:.73,y:-1}], //vak rechts
+        [{x:-.52,y:.6},  {x:.35,y:.57},{x:-.6,y:-0.6}, {x:.37,y:-0.6}], //vak links
 
     ]
 
@@ -140,6 +140,10 @@ module.exports = function(element) {
     // Add object to the scene
     this.add = function(obj) {
         this.scene.add(obj);
+    };
+
+    this.delete = function(obj) {
+        self.scene.remove(obj);
     };
 
     // Render the scene

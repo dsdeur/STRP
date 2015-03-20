@@ -2,16 +2,17 @@ var THREE = require('three');
 var Presets = require('./presets.js');
 
 module.exports.getConfig = function(inputdata) {
+
 		var data = {
-			klassiekModern: inputdata.var3,
-			volgendLeidend:  inputdata.var2,
-			natuurFuturistisch: inputdata.var7,
-			creatiefLogisch: inputdata.var5,
-			introvertExtravert: inputdata.var4,
-			rustigDruk: inputdata.var6,
-			chaotischGestructureerd: inputdata.var1,
-			hartslag: inputdata.hb,
-			color: inputdata.c1
+			klassiekModern: inputdata["profiles"]["1"],
+			volgendLeidend:  inputdata["profiles"]["2"],
+			natuurFuturistisch: inputdata["profiles"]["3"],
+			creatiefLogisch: inputdata["profiles"]["4"],
+			introvertExtravert: inputdata["profiles"]["5"],
+			rustigDruk: inputdata["profiles"]["6"],
+			chaotischGestructureerd: inputdata["profiles"]["7"],
+			hartslag: inputdata["profiles"].hb,
+			color: inputdata["profiles"].c1
 		}
 
 		// console.log(config);

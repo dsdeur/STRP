@@ -3,7 +3,7 @@ var Scene = require('./modules/scene.js');
 var Nebula = require('./modules/nebula.js');
 
 // Set environment var
-window.DEBUGGING = true;
+window.DEBUGGING = false;
 
 // Init the scene
 var scene = new Scene(document.body);
@@ -30,15 +30,17 @@ if(window.DEBUGGING) {
 // CODE FOR TESTING PURPOSES ---------------------------------------
 function randomData(color) {
 	var data = {
-		c1: color,
-		hb: 66,
-		var1: Math.random() < 0.5 ? true : false,
-		var2: Math.random() < 0.5 ? true : false,
-		var3: Math.random() < 0.5 ? true : false,
-		var4: Math.random() < 0.5 ? true : false,
-		var5: Math.random() < 0.5 ? true : false,
-		var6: Math.random() < 0.5 ? true : false,
-		var7: Math.random() < 0.5 ? true : false
+		'profiles': {
+			c1: color,
+			hb: 66,
+			"1": Math.random() < 0.5 ? true : false,
+			"2": Math.random() < 0.5 ? true : false,
+			"3": Math.random() < 0.5 ? true : false,
+			"4": Math.random() < 0.5 ? true : false,
+			"5": Math.random() < 0.5 ? true : false,
+			"6": Math.random() < 0.5 ? true : false,
+			"7": Math.random() < 0.5 ? true : false
+		}
 	};
 
 	return data;
@@ -74,25 +76,25 @@ var simulatedInputData = {
 };
 
 // Add random blobs
-for(var i = 0; i < 6; i++) {
-	var color = getRandomHexColor();
+// for(var i = 0; i < 15; i++) {
+// 	var color = getRandomHexColor();
 
-	for(var x = 0; x < 10; x++) {
-		var config = randomData(color);
-		var id = guid();
-		simulatedInputData['nodes'].push({
-            "userId": id,
-            "input_data": config,
-            "cluster": i,
-            "position": [3, 4]
-        });
+// 	for(var x = 0; x < 20; x++) {
+// 		var config = randomData(color);
+// 		var id = guid();
+// 		simulatedInputData['nodes'].push({
+//             "userId": id,
+//             "input_data": config,
+//             "cluster": i,
+//             "position": [3, 4]
+//         });
 
-		nebula.newBlob(config, i, id);
-	}
-}
+// 		nebula.newBlob(config, i, id);
+// 	}
+// }
 
 
-addRandomBlob();
+// addRandomBlob();
 
 function inputSimulator() {
 	console.log('update');
@@ -114,7 +116,7 @@ function inputSimulator() {
 	setTimeout(function(){inputSimulator();}, 5000);
 }
 
-inputSimulator();
+// inputSimulator();
 
 
 

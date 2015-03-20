@@ -17,16 +17,18 @@ module.exports = function() {
 		this.boids.push(boid);
 	}
 
-	this.update = function(data) {
+	this.update = function(data, nebula) {
 		for(var x = 0, len = this.boids.length; x < len; x++) {
+			console.log(data, this.boids[x]);
 			var updatedBoid = _.filter(data, {userId: this.boids[x].id})[0];
 
 
 			if(!updatedBoid) {
-				this.deleteBoid(x);
+				this.deleteBoid(x, nebula);
 				return;
 			}
 
+			console.log("Change blob", x, updatedBoid)
 			this.changeBoidsGroup(x, updatedBoid.cluster);
 		}
 	};
@@ -35,7 +37,8 @@ module.exports = function() {
 		this.boids[index].changeGroup(group);
 	};
 
-	this.deleteBoid = function(x) {
+	this.deleteBoid = function(x, nebula) {
+		nebula.scene.delete(this.boids[x].object);
 		this.boids.splice(x, 1);
 	};
 }
